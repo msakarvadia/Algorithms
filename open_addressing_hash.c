@@ -33,25 +33,27 @@ char *retrieve(HashMap* hashmap, char *key);
 size_t lookup(HashMap* hashmap, char *key); //returns the index
 void print(HashMap* hashmap);
 size_t nextPrime(size_t curr);
+void delete(HashMap* hashmap, char *key);
 
 
 int main(void){
-    printf("%zu\n", Hash("aaa"));
+    printf("%zu\n", Hash("aa"));
     HashMap* hm = create();
-    insert(hm, "first", "keethan");
-    insert(hm, "last", "kleiner");
-    insert(hm, "last", "k");
-    char test[2];
+//    insert(hm, "f", "keethan");
+    insert(hm, "l", "kleiner");
+//    insert(hm, "last", "k");
+    print(hm);
+/*    char test[2];
     test[1]=0;
     for(char cur = 'a'; cur <= 'z'; ++cur){
         test[0] = cur;
         insert(hm, test, test);
-    }
+    } 
     printf("%s\n",retrieve(hm, "first"));
     printf("%s\n",retrieve(hm, "DNE"));
     print(hm);
     destroy(hm);
-
+      */
     return 0;
 }
 
@@ -111,21 +113,30 @@ void resizeIfLoaded(HashMap* hashmap){
     if(hashmap->size * 2 > hashmap->capacity){
         hashmap->size = 0;
         size_t oldCap = hashmap->capacity;
+        size_t index;
         hashmap->capacity =nextPrime(oldCap);
         Node* old = hashmap->array;
-        hashmap->array = calloc(hashmap->capacity, sizeof(Node*));
+        hashmap->array = calloc(hashmap->capacity, sizeof(Node));  //why isn't it sizeof(Node*)?
         for(size_t i = 0; i< oldCap; ++i){
-            if(old[i].key && !old[i].deleted){
-                insert(hashmap, old[i].key, old[i].val);          
-            }
-            free(old[i].val);
-            free(old[i].key);
-        }
-        //TODO free all the key val pairs for marked deleted nodes
-        free(old);    
-    }
-}
+            if(old[i].key){
+                if(old[i].deleted){
+                    free(old[i].val);
+                    free(old[i].key);
+                }   
+                else{
 
+                    index = lookup(hashmap, old[i].key);
+                    hashmap->array[index].key =old[i].key;
+                    hashmap->array[index].val = old[i].val;
+                    ++hashmap->size;
+                }  
+                free(old);    
+            }
+        }
+    }
+}   
+
+//TODO: this insert function just inserts every key at 0, pls get working func
 void insert(HashMap* hashmap, char *key, char *value){
     //look up
     //increase size if necessary, if it is inserting a new key
@@ -134,16 +145,20 @@ void insert(HashMap* hashmap, char *key, char *value){
 
     size_t index = lookup(hashmap, key);
     bool exists = hashmap->array[index].key;
-//    hashmap->array[index] = (Node){key, value, false};
     hashmap->array[index].deleted = false;
+
     if(exists){
         free(hashmap->array[index].val);
     }
+
     hashmap->array[index].val = malloc((strlen(value)+1)*sizeof(char)); 
     strcpy(hashmap->array[index].val,value);
+
     if(!exists){
         hashmap->array[index].key = malloc((strlen(key)+1)*sizeof(char)); 
+        //hashmap->array[index].val = malloc((strlen(value)+1)*sizeof(char)); 
         strcpy(hashmap->array[index].key,key);
+        //strcpy(hashmap->array[index].val,value);
         ++hashmap->size;
         resizeIfLoaded(hashmap);
     }
