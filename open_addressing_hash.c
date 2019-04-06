@@ -39,9 +39,11 @@ void delete(HashMap* hashmap, char *key);
 int main(void){
     printf("%zu\n", Hash("aa"));
     HashMap* hm = create();
-//    insert(hm, "f", "keethan");
+    insert(hm, "f", "keethan");
+    print(hm);
     insert(hm, "l", "kleiner");
-//    insert(hm, "last", "k");
+    print(hm);
+    insert(hm, "l", "k");
     print(hm);
 /*    char test[2];
     test[1]=0;
@@ -94,19 +96,17 @@ char *retrieve(HashMap* hashmap, char *key){
 }
 
 size_t lookup(HashMap* hashmap, char *key){
-    size_t hashed = Hash(key);
-    size_t index = hashed % hashmap->capacity;
+    size_t hashed = Hash(key), index = hashed % hashmap->capacity;
     char* nodeKey = hashmap->array[index].key;
     for(size_t i = 0; nodeKey != NULL; i++){
         index = (hashed + i*i) % hashmap->capacity;
-        if(!strcmp(nodeKey, key))  //when nodeKey and key are the same, strcmp = FALSE
-        {
-            return index;
+        if(!strcmp(nodeKey, key)){  //when nodeKey and key are the same, strcmp = FALSE
+          return index;
         }
-
         nodeKey = hashmap->array[index].key;
+
     }
-    return 0;
+    return hashed % hashmap->capacity;
 }
 
 void resizeIfLoaded(HashMap* hashmap){
