@@ -3,14 +3,17 @@
 #include <stdbool.h>
 #include <time.h>
 #include <string.h>
+#include <math.h>
 
 #define INITIAL 11
 
 typedef struct node{
     char *key;
     char *val;
-    Node* next;
+    struct node *next;
     }Node;
+
+typedef Node *Nodeprt;
 
 typedef struct hashmap{
     size_t size;
@@ -18,11 +21,11 @@ typedef struct hashmap{
     Node **array;
     }HashMap;
 
-size_t hash(char *key);
+size_t Hash(char *key);
 HashMap *create(); 
 void destroy(HashMap *hashmap);
 void insert(HashMap *hashmap, char *key, char *value);
-void resizeIfLoaded(HahsMap *hashmap);
+void resizeIfLoaded(HashMap *hashmap);
 char *retrieve(HashMap *hashmap, char *key); 
 void delete(HashMap *hashmap, char *key);
 size_t lookup(HashMap * hashmap, char *key);
@@ -32,6 +35,46 @@ size_t nextPrime(size_t curr);
 
 
 int main(void){
+    printf("***Printing the hash values for keys: 'd', 'h', 'last', 'first'***\n");
+    printf("d: %zu\n", Hash("d"));
+    printf("h: %zu\n", Hash("h"));
+    printf("last: %zu\n", Hash("last"));
+    printf("first:%zu\n", Hash("first"));
+    printf("***Inserting keys;values: first;keethan, last; keliner***\n");
+    HashMap* hm = create();
+    insert(hm, "first", "keethan");
+    insert(hm, "last", "kleiner");
+    print(hm);
+    printf("***Reassigning value for key 'last' with value 'k' ***\n");
+    insert(hm, "last", "k");
+    print(hm);
+    printf("***Deleting node at for key 'last' ***\n");
+    delete(hm, "last");
+    print(hm);
+    printf("***Inserting key:value pairs of the alphabet (ie. a:a, b:b) ***\n");
+    char test[2];
+    test[1]=0;
+    for(char cur = 'a'; cur <= 'z'; ++cur){
+      test[0] = cur;
+//      printf("%u\n", lookup(hm, test));
+      insert(hm, test, test);
+    } 
+    print(hm);
+    printf("***Deleting node at for key 'a' ***\n");
+    delete(hm, "a");
+    printf("***Retrieving a key that exsists in hash table: 'first'***\n ***retrieving a delted key: 'a'***\n*** retreiving key that DNE: 'DNE' ***\n");
+    char* ret_first = retrieve(hm, "first");  
+    char* ret_a = retrieve(hm, "a");  
+    
+    printf("retrieved value at key 'first':  %s\n",ret_first);
+    printf("retrieved value at key 'a': %s\n",ret_a);
+
+    char * tmp=retrieve(hm,"DNE"); 
+    if (tmp)
+        printf("Retriving DNE: %s\n",tmp);
+    print(hm);
+    destroy(hm);
+    return 0;
 }
 
 size_t Hash(char *key){
@@ -54,15 +97,13 @@ HashMap *create(){
 
 void destroy(HashMap* hashmap){
     for(size_t i = 0; i<hashmap->capacity; ++i){
-        if(hashmap->array[i]){
-            while(hashmap->array[i] != NULL){
-                next = hashmap->array[i]->next;
-                free(hashmap->array[i]->key);
-                free(hashmap->array[i]->val);
-                free(hashmap->array[i]->next);
-                hashmap->array[i] = next;
-            }
-
+        Node* cur = hashmap->array[i];
+        while(cur){
+            Node* next = cur->next;
+            free(cur->key);
+            free(cur->val);
+            free(cur->next);
+            cur = next;
         }
     }
     free(hashmap->array);
@@ -73,7 +114,7 @@ void insert(HashMap* hashmap, char *key, char *value){
     size_t index = lookup(hashmap, key);
     bool exists = hashmap->array[index]->key;
 
-    cur = hashmap->array[index];
+    Node* cur = hashmap->array[index];
     if(!exists){
         cur->val = malloc((strlen(value)+1)*sizeof(char)); 
         strcpy(cur->val,value);
@@ -83,8 +124,8 @@ void insert(HashMap* hashmap, char *key, char *value){
         resizeIfLoaded(hashmap);
         return;
     }
-    while(cur != NULL){
-        next = cur->next;
+    while(cur){
+        Node* next = cur->next;
         if(exists && !strcmp(key, cur->key)){
             free(cur->val);
             cur->val = malloc((strlen(value)+1)*sizeof(char)); 
@@ -108,17 +149,17 @@ void resizeIfLoaded(HashMap* hashmap){
         printf("resizing\n");
         hashmap->size = 0;
         size_t oldCap = hashmap->capacity;
-        size_t index;
         hashmap->capacity =nextPrime(oldCap);
-        Node* old = hashmap->array;
+        Node** old = hashmap->array;
         hashmap->array = calloc(hashmap->capacity, sizeof(Node*));  //why isn't it sizeof(Node*)?
         for(size_t i = 0; i< oldCap; ++i){
-            if(old[i].key){
-                cur = hashmap->array[index];
+            if(old[i]){
+                Node* cur = hashmap->array[i];
                 while(cur != NULL){
-                    next = cur->next;
+                    Node* next = cur->next;
                     insert(hashmap, cur->key, cur->val);
                     ++hashmap->size;
+                    cur = next;
                 }
             }
         }
@@ -128,23 +169,46 @@ void resizeIfLoaded(HashMap* hashmap){
 
 char *retrieve(HashMap* hashmap, char *key){
     size_t index = lookup(hashmap, key);
-    cur = hashmap->array[index];
-    while(cur != NULL){
-        next = cur->next;
-        if(exists && !strcmp(key, cur->key)){
+    Node* cur = hashmap->array[index];
+    while(cur){
+        Node* next = cur->next;
+        if(!strcmp(key, cur->key)){
             return cur->val;
         }
         cur = next;
     }
     return "Not found";
 }
-//TODO fix delete func - return if key isnt present or if u managed to delete.
-//decrement size if deleted
+
 void delete(HashMap* hashmap, char *key){
     size_t index = lookup(hashmap, key);
-    if(hashmap->array[index].key){
-        hashmap->array[index].deleted = true;
-        --hashmap->size;
+    Node* cur = hashmap->array[index];
+    while(cur){
+        Node* next = cur->next;
+        if(!strcmp(key, cur->key)){
+            free(cur->val);
+            free(cur->key);
+            free(cur->next);
+            --hashmap->size;
+        }
+        cur = next;
+    }
+    return "Not found";
+}
+
+size_t lookup(HashMap* hashmap, char *key){
+    size_t hashed = Hash(key), index = hashed % hashmap->capacity;
+    return index;
+}
+
+void print(HashMap* hashmap){
+    for(size_t i = 0; i< hashmap->capacity; ++i){
+        Node* cur = hashmap->array[i];
+        while(cur){
+            Node* next = cur->next;
+            printf("%zu: %s=>%s\n", i, cur->key, cur->val);
+            cur = next;
+        }
     }
 }
 
