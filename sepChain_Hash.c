@@ -73,7 +73,7 @@ int main(void){
     if (tmp)
         printf("Retriving DNE: %s\n",tmp);
     print(hm);
-    destroy(hm);
+    destroy(hm);  
     return 0;
 }
 
@@ -112,21 +112,27 @@ void destroy(HashMap* hashmap){
 
 void insert(HashMap* hashmap, char *key, char *value){
     size_t index = lookup(hashmap, key);
-    bool exists = hashmap->array[index]->key;
+    bool exists = false;
+    if(hashmap->array[index]){
+        exists = true;
+        }
 
     Node* cur = hashmap->array[index];
     if(!exists){
+        cur = malloc(sizeof(Node));
         cur->val = malloc((strlen(value)+1)*sizeof(char)); 
         strcpy(cur->val,value);
         cur->key = malloc((strlen(key)+1)*sizeof(char)); 
         strcpy(cur->key,key);
+        cur->next = NULL;
+        hashmap->array[index] = cur;
         ++hashmap->size;
         resizeIfLoaded(hashmap);
         return;
     }
     while(cur){
         Node* next = cur->next;
-        if(exists && !strcmp(key, cur->key)){
+        if(!strcmp(key, cur->key)){
             free(cur->val);
             cur->val = malloc((strlen(value)+1)*sizeof(char)); 
             strcpy(cur->val,value);
@@ -134,10 +140,12 @@ void insert(HashMap* hashmap, char *key, char *value){
         }
         cur = next;
     }
-    cur->val = malloc((strlen(value)+1)*sizeof(char)); 
-    strcpy(cur->val,value);
+    cur = malloc(sizeof(Node));
+    cur->next = NULL;
     cur->key = malloc((strlen(key)+1)*sizeof(char)); 
     strcpy(cur->key,key);
+    cur->val = malloc((strlen(value)+1)*sizeof(char)); 
+    strcpy(cur->val,value);
     ++hashmap->size;
     resizeIfLoaded(hashmap);
     return;
@@ -182,33 +190,45 @@ char *retrieve(HashMap* hashmap, char *key){
 
 void delete(HashMap* hashmap, char *key){
     size_t index = lookup(hashmap, key);
+    Node* prev = NULL;
     Node* cur = hashmap->array[index];
     while(cur){
         Node* next = cur->next;
         if(!strcmp(key, cur->key)){
             free(cur->val);
             free(cur->key);
-            free(cur->next);
             --hashmap->size;
+            free(cur);
+            if(prev){
+                prev->next = next;
+            }
+            else{
+                hashmap->array[index] = NULL;
+            }
+            return;
         }
+        prev = cur;
         cur = next;
     }
-    return "Not found";
+    return;
 }
 
 size_t lookup(HashMap* hashmap, char *key){
-    size_t hashed = Hash(key), index = hashed % hashmap->capacity;
+    size_t hashed = Hash(key); 
+    size_t index = hashed % hashmap->capacity;
     return index;
 }
 
 void print(HashMap* hashmap){
     for(size_t i = 0; i< hashmap->capacity; ++i){
         Node* cur = hashmap->array[i];
+        printf("%zu:", i);
         while(cur){
             Node* next = cur->next;
-            printf("%zu: %s=>%s\n", i, cur->key, cur->val);
+            printf("|| %s=>%s ||",  cur->key, cur->val);
             cur = next;
         }
+        puts("\n");
     }
 }
 
