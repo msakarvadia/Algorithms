@@ -162,7 +162,7 @@ void resizeIfLoaded(HashMap* hashmap){
         hashmap->array = calloc(hashmap->capacity, sizeof(Node*));  //why isn't it sizeof(Node*)?
         for(size_t i = 0; i< oldCap; ++i){
             if(old[i]){
-                Node* cur = hashmap->array[i];
+                Node* cur = old[i];
                 while(cur != NULL){
                     Node* next = cur->next;
                     insert(hashmap, cur->key, cur->val);
