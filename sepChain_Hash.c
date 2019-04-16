@@ -44,6 +44,8 @@ int main(void){
     HashMap* hm = create();
     insert(hm, "first", "keethan");
     insert(hm, "last", "kleiner");
+    char* ret_first = retrieve(hm, "first");  
+    printf("retrieved value at key 'first':  %s\n",ret_first);
     print(hm);
     printf("***Reassigning value for key 'last' with value 'k' ***\n");
     insert(hm, "last", "k");
@@ -56,23 +58,26 @@ int main(void){
     test[1]=0;
     for(char cur = 'a'; cur <= 'z'; ++cur){
       test[0] = cur;
-//      printf("%u\n", lookup(hm, test));
       insert(hm, test, test);
     } 
     print(hm);
+    printf("retrieved value at key 'first':  %s\n",ret_first);
+    char* ret_d = retrieve(hm, "d");  
+    printf("retrieved value at key 'd': %s\n",ret_d);
+    char* ret_a = retrieve(hm, "a");  
+    printf("retrieved value at key 'a': %s\n",ret_a);
     printf("***Deleting node at for key 'a' ***\n");
     delete(hm, "a");
-    printf("***Retrieving a key that exsists in hash table: 'first'***\n ***retrieving a delted key: 'a'***\n*** retreiving key that DNE: 'DNE' ***\n");
-    char* ret_first = retrieve(hm, "first");  
-    char* ret_a = retrieve(hm, "a");  
+    print(hm);
+    printf("***Retrieving a key that exsists in hash table: 'first'***\n ***retrieving : 'd'***\n*** retreiving key that DNE: 'DNE' ***\n");
     
     printf("retrieved value at key 'first':  %s\n",ret_first);
-    printf("retrieved value at key 'a': %s\n",ret_a);
+    printf("retrieved value at key 'd': %s\n",ret_d);
 
     char * tmp=retrieve(hm,"DNE"); 
     if (tmp)
         printf("Retriving DNE: %s\n",tmp);
-    print(hm);
+    print(hm);  
     destroy(hm);  
     return 0;
 }
@@ -102,7 +107,7 @@ void destroy(HashMap* hashmap){
             Node* next = cur->next;
             free(cur->key);
             free(cur->val);
-            free(cur->next);
+            free(cur);
             cur = next;
         }
     }
@@ -115,7 +120,7 @@ void insert(HashMap* hashmap, char *key, char *value){
     bool exists = false;
     if(hashmap->array[index]){
         exists = true;
-        }
+    }
 
     Node* cur = hashmap->array[index];
     if(!exists){
@@ -130,17 +135,20 @@ void insert(HashMap* hashmap, char *key, char *value){
         resizeIfLoaded(hashmap);
         return;
     }
-    while(cur){
-        Node* next = cur->next;
+    while(1){
         if(!strcmp(key, cur->key)){
             free(cur->val);
             cur->val = malloc((strlen(value)+1)*sizeof(char)); 
             strcpy(cur->val,value);
             return;
         }
-        cur = next;
+        if(!(cur->next)){
+            break;
+        }
+        cur = cur->next;
     }
-    cur = malloc(sizeof(Node));
+    cur->next= malloc(sizeof(Node));
+    cur = cur->next;
     cur->next = NULL;
     cur->key = malloc((strlen(key)+1)*sizeof(char)); 
     strcpy(cur->key,key);
@@ -157,9 +165,9 @@ void resizeIfLoaded(HashMap* hashmap){
         printf("resizing\n");
         hashmap->size = 0;
         size_t oldCap = hashmap->capacity;
-        hashmap->capacity =nextPrime(oldCap);
+        hashmap->capacity =nextPrime(oldCap);              
         Node** old = hashmap->array;
-        hashmap->array = calloc(hashmap->capacity, sizeof(Node*));  //why isn't it sizeof(Node*)?
+        hashmap->array = calloc(hashmap->capacity,sizeof(Node*));  
         for(size_t i = 0; i< oldCap; ++i){
             if(old[i]){
                 Node* cur = old[i];
@@ -171,8 +179,8 @@ void resizeIfLoaded(HashMap* hashmap){
                 }
             }
         }
-        free(old);    
-    }
+        free(old);
+    }   
 }   
 
 char *retrieve(HashMap* hashmap, char *key){
@@ -190,21 +198,27 @@ char *retrieve(HashMap* hashmap, char *key){
 
 void delete(HashMap* hashmap, char *key){
     size_t index = lookup(hashmap, key);
-    Node* prev = NULL;
     Node* cur = hashmap->array[index];
+    Node* prev = cur;
+    if(!cur){
+        return;
+        }
+    if(!strcmp(key, cur->key)){
+        free(cur->val);
+        free(cur->key);
+        --hashmap->size;
+        hashmap->array[index] = cur->next;
+        free(cur);     
+        return;
+    }
     while(cur){
         Node* next = cur->next;
         if(!strcmp(key, cur->key)){
             free(cur->val);
             free(cur->key);
             --hashmap->size;
+            prev->next = next;
             free(cur);
-            if(prev){
-                prev->next = next;
-            }
-            else{
-                hashmap->array[index] = NULL;
-            }
             return;
         }
         prev = cur;
@@ -215,7 +229,7 @@ void delete(HashMap* hashmap, char *key){
 
 size_t lookup(HashMap* hashmap, char *key){
     size_t hashed = Hash(key); 
-    size_t index = hashed % hashmap->capacity;
+    size_t index = hashed % hashmap->capacity; //TODO this capacity changes based on when resize happens
     return index;
 }
 
