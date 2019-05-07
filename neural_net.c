@@ -5,6 +5,8 @@
 #include <string.h>
 #include <math.h>
 
+#define LEARNING_RATE 0.1
+
 typedef struct network{
     size_t numOfLayers;
     size_t *layerSizes;
@@ -20,7 +22,7 @@ double **createMatrix(size_t rows, size_t cols);
 Network *createNetwork(size_t numOfLayers, size_t *layerSizes);
 void destroyNetwork(Network *network);
 double *feedForward(Network *network, double *input);
-void backPropagate(Network *network, double *input, double *expected);
+void backPropagate(Network *network, double *input, double *expected, double learningRate);
 double dotproduct(double *a, double*b, size_t length); //TODO
 
 int main(void){
@@ -88,13 +90,13 @@ void destroyNetwork(Network *network){
     free(network);
 }
 
-void backPropagate(Network *network, double *input, double *expected){
+void backPropagate(Network *network, double *input, double *expected, double learningRate){
     double **layers = malloc(sizeof(double*)*(network->numOfLayers-1)); //stores output signals of each layer
     layers[0] = malloc(sizeof(double)*(network->layerSizes[0]+1));
     memcpy(layers[0]+1, input, sizeof(double)*(network->layerSizes[0]));  //copying inputs into layer zero
     layers[0][0] = 1;                                                     //bias in the front
 
-    size_t i, j;
+    size_t k,i, j;
     for(i = 0; i<network->numOfLayers-2; ++i){    //only iterates thru hidden layers
         layers[i+1] = vectorByMatrix(layers[i], network->weights[i], network->layerSizes[i+1], network->layerSizes[i]+1);
         layers[i+1] = realloc(layers[i+1], sizeof(double)*(network->layerSizes[i+1]+1));
@@ -118,11 +120,20 @@ void backPropagate(Network *network, double *input, double *expected){
     for(--i; (int)i>=0 ; --i){
         deltas[i]=malloc(sizeof(double)* (1+network->layerSizes[i+1])); //plus 1 for the bias statement
         for(j =0; j<network->layerSizes[i+1]+1; ++j){
-            deltas[i][j] = layers[i+1][j]*(1-layers[i+1][j])*(dotProduct(deltas[i+1],network->weights[i][i+1][j],network->layerSizes[i+2]+bias));//layers contains output from each node; we want to update weights coming from a node
+            deltas[i][j] = layers[i+1][j]*(1-layers[i+1][j])*(dotProduct(deltas[i+1],network->weights[i+1][j],network->layerSizes[i+2]+bias));//layers contains output from each node; we want to update weights coming from a node
         }
         bias = 1;
     }
-   //TODO start here 
+    for(i = 0; i < network->numOfLayers-1; ++i){
+        for(j=0; j< network->layerSizes[i]+1; ++j){
+            for(k=0; k<network->layerSizes[i+1]+bias; ++k){
+                network->weights[i][j][k] = network->weights[i][j][k] + learningRate*deltas[i][k]*layers[i][j];
+            }
+        }
+        if(i == network->numOfLayers-2){
+            bias = 0;
+        }    
+    }
 }                                        
 
 double *feedForward(Network *network, double *input){
