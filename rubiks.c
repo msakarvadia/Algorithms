@@ -13,11 +13,13 @@ void f(int** cube);
 void b(int** cube);
 void l(int** cube);
 void r(int** cube);
+bool checkCube(int** cube, int row, int col);
+bool checkWhiteCross(int** cube);
 void swap(int** cube, int r1, int c1, int r2, int c2);
 
 int main(void){
     int** cube = makeCube();
-    printCube(cube);
+    printCube(cube);   
     while (true) {
         //int v=-1;
         //size_t p=0;
@@ -65,18 +67,66 @@ int main(void){
     }
 }
 
-int** makeCube(){
+int** makeCube(){    
     int **out = malloc(9 *sizeof(double*));
     for(size_t i = 0; i<9; ++i){
         out[i] = calloc(12, sizeof(int));
-        }
+    }
     return out;
+}
+
+bool checkWhiteCross(int** cube){
+    int up = checkCube(cube, 3,4);
+    int down = checkCube(cube, 5,4);
+    int right = checkCube(cube, 4,3);
+    int left = checkCube(cube, 4,5);
+    if(up && down && right && left){
+        return true;
+        }
+    return false;
+    }
+
+bool checkCube(int** cube, int row, int col){  //TODO verify this func works
+    int** checker = makeCube();
+    for(int r = 0; r < 3; ++r){
+        for(int c = 3; c <6; ++c){
+            checker[r][c] = 5; //this face is green
+        }
+    }
+    for(int r = 3; r < 6; ++r){
+        for(int c = 0; c <3; ++c)
+            checker[r][c] = 3; //this face is red
+        for(int c = 3; c <6; ++c)
+            checker[r][c] = 1; //this face is white
+        for(int c = 6; c <9; ++c)
+            checker[r][c] = 2; //this face is orange
+        for(int c = 9; c <12; ++c)
+            checker[r][c] = 6; //this face is yellow
+    }
+    for(int r = 6; r < 9; ++r){
+        for(int c = 3; c <6; ++c){
+            checker[r][c] = 4; //this face is blue
+        }
+    }
+    int checkerColor = checker[row][col];
+    int cubeColor = cube[row][col];
+    if(checkerColor == cubeColor){
+        return true;
+    }
+    else{
+        return false;
+    }
 }
 
 void printCube(int** cube){
     for(size_t r = 0; r < 9; r++){
         for(size_t c = 0; c <12; c++){
-            printf("%d,", cube[r][c]);
+            if(cube[r][c] == 0){
+                printf(" ");
+            }
+            else{
+                printf("%d,", cube[r][c]);
+            }
         }
         puts("");
     }
