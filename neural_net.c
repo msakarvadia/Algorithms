@@ -107,7 +107,7 @@ void backPropagate(Network *network, double *input, double *expected, double lea
     }
     layers[i+1] = vectorByMatrix(layers[i], network->weights[i], network->layerSizes[i]+1, network->layerSizes[i+1]);
     for(size_t j = 0; j< network->layerSizes[i+1]; ++j){
-        layers[i+1] = logistic(layers[i+1][j]);
+        layers[i+1][j] = logistic(layers[i+1][j]);
     }
 
     double **deltas = malloc(sizeof(double*)*(i+1));
