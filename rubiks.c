@@ -19,6 +19,7 @@ void swap(int** cube, int r1, int c1, int r2, int c2);
 void makeWhiteX(int** cube);
 void standardScramble(int** cube);
 void fillStdCube(int** cube);
+void whiteLProtocol(int** cube);
 
 int main(void){
     int** cube = makeCube();
@@ -115,12 +116,11 @@ void standardScramble(int** cube){
 
 void makeWhiteX(int** cube){
     size_t i;
-    while(!checkWhiteCross(cube)){               //TODO fix this func
+    while(!checkWhiteCross(cube)){               
         //blue
         for(i=0; i<4; i++){
             if (!((cube[5][4] ==1)&& (cube[6][4] ==4))){
-                //#2
-                if( (cube[5][4]==4) && (cube[6][4]==1)){
+                if( (cube[5][4]==4) && (cube[6][4]==1)){ //check for inverse side peices
                     for(i=0; i<3; i++)
                         f(cube);
                     l(cube);
@@ -132,7 +132,7 @@ void makeWhiteX(int** cube){
                         f(cube);
                     d(cube);
                 }
-                for(i=0; i<3; i++)
+                for(i=0; i<3; i++)                       //switch edge piece
                     f(cube);
                 d(cube);    
             }
@@ -140,20 +140,73 @@ void makeWhiteX(int** cube){
                 continue;
             }
         }
-        if(cube[4][2]==2 && cube[4][3]==1 && cube[3][4]==1 && cube[2][4]==5 ){
-            for(i=0; i<3; i++)
-                b(cube);
-            for(i=0; i<3; i++)
-                d(cube);
-            b(cube);
-            d(cube);
+        whiteLProtocol(cube);
+        //red TODO
+        for(i=0; i<4; i++){
+            if (!((cube[5][4] ==1)&& (cube[6][4] ==4))){
+                if( (cube[5][4]==4) && (cube[6][4]==1)){ //check for inverse side peices
+                    for(i=0; i<3; i++)
+                        f(cube);
+                    l(cube);
+                    for(i=0; i<3; i++)
+                        d(cube);
+                    for(i=0; i<3; i++)
+                        l(cube);
+                    for(i=0; i<2; i++)
+                        f(cube);
+                    d(cube);
+                }
+                for(i=0; i<3; i++)                       //switch edge piece
+                    f(cube);
+                d(cube);    
+            }
+            else{
+                continue;
+            }
         }
+        whiteLProtocol(cube);
+
     }
     return;
 }
 
+void whiteLProtocol(int** cube){
+    if(cube[4][2]==3 && cube[4][3]==1 && cube[3][4]==1 && cube[2][4]==5 ){ //red and green L
+        for(i=0; i<3; i++)
+            b(cube);
+        for(i=0; i<3; i++)
+            d(cube);
+        b(cube);
+        d(cube);
+    }
+    if(cube[4][2]==3 && cube[4][3]==1 && cube[5][4]==1 && cube[6][4]==4){ //blue and red L
+        l(cube);
+        for(i=0; i<3; i++)
+            d(cube);
+        for(i=0; i<3; i++)
+            l(cube);
+        d(cube);                                
+    }
+    if(cube[4][5]==1 && cube[4][6]==2 && cube[5][4]==1 && cube[6][4]==4){ //orange and blue L
+        f(cube);
+        for(i=0; i<3; i++)
+            d(cube);
+        for(i=0; i<3; i++)
+            f(cube);
+        d(cube);                                
+    }
+    if(cube[4][5]==1 && cube[4][6]==2 && cube[3][4]==1 && cube[2][4]==5){ //orange and blue L
+        b(cube);
+        for(i=0; i<3; i++)
+            d(cube);
+        for(i=0; i<3; i++)
+            b(cube);
+        d(cube);                                
+    }
+
+}
+
 bool checkWhiteCross(int** cube){
-    //TODO check corresponding peices on other side of edge
     int up = checkCube(cube, 3,4);
     int upbelow = checkCube(cube, 2,4);
     int down = checkCube(cube, 5,4);
