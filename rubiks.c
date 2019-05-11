@@ -16,13 +16,18 @@ void r(int** cube);
 bool checkCube(int** cube, int row, int col);
 bool checkWhiteCross(int** cube);
 void swap(int** cube, int r1, int c1, int r2, int c2);
+void makeWhiteX(int** cube);
+void standardScramble(int** cube);
+void fillStdCube(int** cube);
 
 int main(void){
     int** cube = makeCube();
+    fillStdCube(cube);
     printCube(cube);   
-    while (true) {
-        //int v=-1;
-        //size_t p=0;
+    standardScramble(cube);
+    printCube(cube);   
+    makeWhiteX(cube);
+/*    while (true) {
         printf("insert command (e = exit, f= fillCube): e,f\n");
         char cmd='x';
         cmd=getchar();
@@ -64,7 +69,7 @@ int main(void){
     u(cube);
     printCube(cube);
     return 0;
-    }
+    }   */
 }
 
 int** makeCube(){    
@@ -75,39 +80,97 @@ int** makeCube(){
     return out;
 }
 
-bool checkWhiteCross(int** cube){
-    int up = checkCube(cube, 3,4);
-    int down = checkCube(cube, 5,4);
-    int right = checkCube(cube, 4,3);
-    int left = checkCube(cube, 4,5);
-    if(up && down && right && left){
-        return true;
-        }
-    return false;
-    }
-
-bool checkCube(int** cube, int row, int col){  //TODO verify this func works
-    int** checker = makeCube();
+void fillStdCube(int** cube){
     for(int r = 0; r < 3; ++r){
         for(int c = 3; c <6; ++c){
-            checker[r][c] = 5; //this face is green
+            cube[r][c] = 5; //this face is green
         }
     }
     for(int r = 3; r < 6; ++r){
         for(int c = 0; c <3; ++c)
-            checker[r][c] = 3; //this face is red
+            cube[r][c] = 3; //this face is red
         for(int c = 3; c <6; ++c)
-            checker[r][c] = 1; //this face is white
+            cube[r][c] = 1; //this face is white
         for(int c = 6; c <9; ++c)
-            checker[r][c] = 2; //this face is orange
+            cube[r][c] = 2; //this face is orange
         for(int c = 9; c <12; ++c)
-            checker[r][c] = 6; //this face is yellow
+            cube[r][c] = 6; //this face is yellow
     }
     for(int r = 6; r < 9; ++r){
         for(int c = 3; c <6; ++c){
-            checker[r][c] = 4; //this face is blue
+            cube[r][c] = 4; //this face is blue
         }
     }
+    
+}
+
+void standardScramble(int** cube){
+    u(cube);
+    d(cube);
+    r(cube);
+    l(cube);
+    f(cube);
+    b(cube);
+}
+
+void makeWhiteX(int** cube){
+    size_t i;
+    while(!checkWhiteCross(cube)){               //TODO fix this func
+        //blue
+        for(i=0; i<4; i++){
+            if (!((cube[5][4] ==1)&& (cube[6][4] ==4))){
+                //#2
+                if( (cube[5][4]==4) && (cube[6][4]==1)){
+                    for(i=0; i<3; i++)
+                        f(cube);
+                    l(cube);
+                    for(i=0; i<3; i++)
+                        d(cube);
+                    for(i=0; i<3; i++)
+                        l(cube);
+                    for(i=0; i<2; i++)
+                        f(cube);
+                    d(cube);
+                }
+                for(i=0; i<3; i++)
+                    f(cube);
+                d(cube);    
+            }
+            else{
+                continue;
+            }
+        }
+        if(cube[4][2]==2 && cube[4][3]==1 && cube[3][4]==1 && cube[2][4]==5 ){
+            for(i=0; i<3; i++)
+                b(cube);
+            for(i=0; i<3; i++)
+                d(cube);
+            b(cube);
+            d(cube);
+        }
+    }
+    return;
+}
+
+bool checkWhiteCross(int** cube){
+    //TODO check corresponding peices on other side of edge
+    int up = checkCube(cube, 3,4);
+    int upbelow = checkCube(cube, 2,4);
+    int down = checkCube(cube, 5,4);
+    int downbelow = checkCube(cube, 6,4);
+    int right = checkCube(cube, 4,3);
+    int rightbelow = checkCube(cube, 4,2);
+    int left = checkCube(cube, 4,5);
+    int leftbelow = checkCube(cube, 4,6);
+    if(up && down && right && left && upbelow && downbelow && rightbelow && leftbelow){
+        return true;
+    }
+    return false;
+}
+
+bool checkCube(int** cube, int row, int col){  //TODO verify this func works
+    int** checker = makeCube();
+    fillStdCube(checker);
     int checkerColor = checker[row][col];
     int cubeColor = cube[row][col];
     if(checkerColor == cubeColor){
@@ -156,7 +219,7 @@ void u(int** cube){
     swap(cube, 2,5,5,6);
     swap(cube, 2,5,6,3);
     swap(cube, 2,5,3,2);
-    printf("Step: U");
+    printf("Step: U\n");
 }
 
 //"down" - botton layer twisted clock-wise
@@ -176,7 +239,7 @@ void d(int** cube){
     swap(cube,0,3,5,0);
     swap(cube,0,3,8,5);
     swap(cube,0,3,3,8);
-    printf("Step: D");
+    printf("Step: D\n");
     }
 
 //"right" - turn right side towards you
@@ -196,7 +259,7 @@ void r(int** cube){
     swap(cube, 2,5,5,5);
     swap(cube, 2,5,8,5);
     swap(cube, 2,5,3,9);
-    printf("Step: R");
+    printf("Step: R\n");
     }
 
 //"left" - turn left side towards you    
@@ -216,7 +279,7 @@ void l(int** cube){
     swap(cube, 2,3,5,3);
     swap(cube, 2,3,8,3);
     swap(cube, 2,3,3,11);
-    printf("Step: L");
+    printf("Step: L\n");
     }
 
 //"front" - twist front face clockwise
@@ -236,7 +299,7 @@ void f(int** cube){
     swap(cube,5,3,5,0);
     swap(cube,5,3,0,5);
     swap(cube,5,3,5,6);
-    printf("Step: F");
+    printf("Step: F\n");
     }
 
 //"back" - twist back face clockwise -relative to the human's perception of clockwise
@@ -256,5 +319,5 @@ void b(int** cube){
     swap(cube, 8,5,3,6);
     swap(cube, 8,5,3,3);
     swap(cube, 8,5,3,0);
-    printf("Step: B");
+    printf("Step: B\n");
     }
