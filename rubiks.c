@@ -113,18 +113,19 @@ void fillStdCube(int** cube){
 }
 
 void standardScramble(int** cube){
-    f(cube);
+    u(cube);
+    l(cube);
+    l(cube);
     b(cube);
     u(cube);
-    b(cube);
-    b(cube);
-    l(cube);
-    l(cube);
-    b(cube);
-    b(cube);
+    d(cube);
+    u(cube);
+    r(cube);
     f(cube);
-    l(cube);
+    u(cube);
+    u(cube);
     f(cube);
+    u(cube);
 }
 
 void makeMiddle(int** cube){
@@ -132,8 +133,8 @@ void makeMiddle(int** cube){
     while(!checkMiddle(cube)){
         //blue and orange 
         for(i = 0; i<3; ++i){
-            if((cube[7][5]==4)&&(cube[5][7]==2))
-                continue;
+            if((cube[7][5]==4)&&(cube[5][7]==2))     {
+                continue;                             }
             r(cube);
             d(cube);
             for(j=0;j<3;j++)
@@ -144,12 +145,11 @@ void makeMiddle(int** cube){
                 d(cube);
             for(j=0;j<3;j++)
                 f(cube);
-            d(cube);
         }
-        //blue and red
+        //blue and red 
         for(i = 0; i<3; ++i){
-            if((cube[7][3]==4)&&(cube[5][1]==3))
-                continue;
+            if((cube[7][3]==4)&&(cube[5][1]==3))    {
+                continue;                          }
             for(j=0;j<3;j++)
                 f(cube);
             d(cube);
@@ -160,12 +160,11 @@ void makeMiddle(int** cube){
                 d(cube);
             for(j=0;j<3;j++)
                 l(cube);
-            d(cube);
         }
         //red and green
         for(i = 0; i<3; ++i){
-            if((cube[3][1]==3)&&(cube[1][3]==5))
-                continue;
+            if((cube[3][1]==3)&&(cube[1][3]==5))  {
+               continue;                         }
             for(j=0;j<3;j++)
                 l(cube);
             d(cube);
@@ -176,12 +175,11 @@ void makeMiddle(int** cube){
             for(j=0;j<3;j++)
                 d(cube);
             b(cube);
-            d(cube);
         }
-        //green and orange        TODO THIS IS WHERE PROBLEM ARRISES
+        //green and orange       
         for(i = 0; i<3; ++i){
-            if((cube[1][5]==5)&&(cube[3][7]==2))
-                return;
+            if((cube[1][5]==5)&&(cube[3][7]==2)){
+                continue;}
             b(cube);
             d(cube);
             for(j=0;j<3;j++)
@@ -192,8 +190,8 @@ void makeMiddle(int** cube){
             for(j=0;j<3;j++)
                 d(cube);
             r(cube);
-            d(cube);
         }
+        d(cube);
     }
     return;
 }
@@ -214,7 +212,7 @@ bool checkMiddle(int** cube){
         return false;
 
 }
-
+                                    //THIS IS STUCK TODO
 void makeWhiteX(int** cube){
     size_t i,j;       
     while(!checkWhiteCross(cube)){               
@@ -351,7 +349,7 @@ void makeWhiteX(int** cube){
 
 bool checkWhiteCross(int** cube){
     int up = checkCube(cube, 3,4);
-    int upbelow = checkCube(cube, 2,4);
+    int upbelow = checkCube(cube, 2,4);                            
     int down = checkCube(cube, 5,4);
     int downbelow = checkCube(cube, 6,4);
     int right = checkCube(cube, 4,3);
@@ -368,8 +366,8 @@ void makeWhiteCornors(int**cube){
     size_t i,j,k;
     while(!checkWhiteCornors(cube)){
         //bottom right
-        for(i = 0; i < 4; i++){
-            if((cube[5][5]==1) && (cube[6][5]==4)){
+        for(i = 0; i < 3; i++){
+            if((cube[5][5]==1) && (cube[6][5]==4) &&(cube[5][6]==2)){
                 continue;
             }
             r(cube);
@@ -379,7 +377,7 @@ void makeWhiteCornors(int**cube){
                 r(cube);
             d(cube);
             for(k=0; k < 3; k++){
-                if(!((cube[5][5]==1) && (cube[6][5]==4))){
+                if(!((cube[5][5]==1) && (cube[6][5]==4) && (cube[5][6]==2))){
                     r(cube);
                     for(j = 0; j < 3; j++)
                         d(cube);
@@ -397,8 +395,8 @@ void makeWhiteCornors(int**cube){
             }
         }
         //bottom left
-        for(i = 0; i < 4; i++){
-            if((cube[5][3]==1) && (cube[6][3]==4)){
+        for(i = 0; i < 3; i++){
+            if((cube[5][3]==1) && (cube[6][3]==4) && (cube[5][2]==3)){
                 continue;
             }
             for(j = 0; j < 3; j++)
@@ -408,7 +406,7 @@ void makeWhiteCornors(int**cube){
             f(cube);
             d(cube);
             for(k=0; k < 3; k++){
-                if(!((cube[5][3]==1) && (cube[6][3]==4))){
+                if(!((cube[5][3]==1) && (cube[6][3]==4) && (cube[5][2]==3))){
                     for(j = 0; j < 3; j++)
                         f(cube);
                     for(j = 0; j < 3; j++)
@@ -428,8 +426,8 @@ void makeWhiteCornors(int**cube){
 
         }
         //back left  
-        for(i = 0; i < 4; i++){
-            if((cube[3][3]==1) && (cube[2][3]==5)){
+        for(i = 0; i < 3; i++){
+            if((cube[3][3]==1) && (cube[2][3]==5) && (cube[3][2]==3)){
                 continue;                          
             }
             for(j = 0; j < 3; j++)
@@ -439,7 +437,7 @@ void makeWhiteCornors(int**cube){
             l(cube);           
             d(cube);
             for(k=0; k < 3; k++){
-                if(!((cube[3][3]==1) && (cube[2][3]==5))){
+                if(!((cube[3][3]==1) && (cube[2][3]==5) && (cube[3][2]==3))){
                     for(j = 0; j < 3; j++)
                         l(cube);
                     for(j = 0; j < 3; j++)
@@ -458,10 +456,10 @@ void makeWhiteCornors(int**cube){
         }
 
         //back right
-        for(i = 0; i < 4; i++){
-            if((cube[3][5]==1) && (cube[2][5]==5)){
+        for(i = 0; i < 3; i++){
+            if((cube[3][5]==1) && (cube[2][5]==5) && (cube[3][6]==2)){
                 continue;
-        }
+            }
             b(cube);
             for(j = 0; j < 3; j++)
                 d(cube);
@@ -469,7 +467,7 @@ void makeWhiteCornors(int**cube){
                 b(cube);
             d(cube);
             for(k=0; k < 3; k++){
-                if(!((cube[3][5]==1) && (cube[2][5]==5))){
+                if(!((cube[3][5]==1) && (cube[2][5]==5) && (cube[3][6]==2))){
                     b(cube);
                     for(j = 0; j < 3; j++)
                         d(cube);
@@ -499,7 +497,11 @@ bool checkWhiteCornors(int** cube){
     int blb = checkCube(cube, 2,3);
     int br = checkCube(cube, 3,5);
     int brb = checkCube(cube, 2,5);
-    if(r && rb && l && lb &&  bl && blb && br && brb){
+    int a = checkCube(cube, 5,6);
+    int b = checkCube(cube, 5,2);
+    int c = checkCube(cube, 3,2);
+    int d = checkCube(cube, 3,6);
+    if(r && rb && l && lb &&  bl && blb && br && brb && a && b && c && d){
         return true;
         }
     return false;
