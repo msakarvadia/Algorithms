@@ -25,40 +25,6 @@ int main(void){
     size_t i;
     int** cube = makeCube();
     fillStdCube(cube);
-/*    for(i=0; i<3; i++)
-        f(cube);
-    l(cube);
-    d(cube);
-    for(i=0; i<3; i++)
-        l(cube);
-    for(i=0; i<2; i++)
-        f(cube);
-    d(cube);
-    for(i=0; i<3; i++)
-        l(cube);
-    for(i=0; i<3; i++)
-        b(cube);
-    d(cube);
-    b(cube);
-    for(i=0; i<2; i++)
-        l(cube);
-    d(cube);
-    b(cube);
-    for(i=0; i<3; i++)
-        r(cube);
-    d(cube);
-    r(cube);
-    for(i=0; i<2; i++)
-        b(cube);
-    d(cube);
-    r(cube);
-    f(cube);
-    d(cube);
-    for(i=0; i<3; i++)
-        f(cube);
-    for(i=0; i<2; i++)
-        r(cube);
-    d(cube);  */
     printCube(cube);     
     standardScramble(cube);
     makeWhiteX(cube);
@@ -174,10 +140,10 @@ void makeWhiteX(int** cube){
                 for(i=0; i<3; i++)                       //switch edge piece
                     f(cube);
                 d(cube);    
-                printf("blue\n");
+    //            printf("blue\n");
             }
             else{
-                printCube(cube);
+      //          printCube(cube);
                 continue;
             }
         }
@@ -188,7 +154,6 @@ void makeWhiteX(int** cube){
             b(cube);
             d(cube);
         }
-        //        whiteLProtocol(cube);
         //red
         for(i=0; i<4; i++){
             if( (cube[4][2]==1) && (cube[4][3]==3)){ //check for inverse side peices
@@ -207,10 +172,10 @@ void makeWhiteX(int** cube){
                 for(i=0; i<3; i++)                       //switch edge piece
                     l(cube);
                 d(cube);    
-                printf("red\n");
+          //      printf("red\n");
             }
             else{
-                printCube(cube);
+        //        printCube(cube);
                 continue;
             }
         }
@@ -221,7 +186,6 @@ void makeWhiteX(int** cube){
             b(cube);
             d(cube);                                
         }
-        //      whiteLProtocol(cube);
         //green 
         for(i=0; i<4; i++){
             if( (cube[2][4]==1) && (cube[3][4]==5)){ //check for inverse side peices
@@ -239,10 +203,10 @@ void makeWhiteX(int** cube){
                 //switch edge piece
                 b(cube); 
                 d(cube);        
-                printf("green\n");
+            //    printf("green\n");
             }
             else{
-                printCube(cube);
+              //  printCube(cube);
                 continue;
             }
         }
@@ -253,7 +217,6 @@ void makeWhiteX(int** cube){
                 f(cube);
             d(cube);                                
         }
-        //    whiteLProtocol(cube);
         //orange  
         for(i=0; i<4; i++){
             if( (cube[4][5]==2) && (cube[4][6]==1)){ //check for inverse side peices
@@ -270,10 +233,10 @@ void makeWhiteX(int** cube){
             else if (!((cube[4][5] ==1)&& (cube[4][6] ==2))){
                 r(cube);
                 d(cube);    
-                printf("orange\n");
+              //  printf("orange\n");
             }
             else{
-                printCube(cube);
+               // printCube(cube);
                 continue;
             }
         }
@@ -284,7 +247,6 @@ void makeWhiteX(int** cube){
                 l(cube);
             d(cube);                                
         }
-        //  whiteLProtocol(cube);
 
     }
     return;
