@@ -144,9 +144,11 @@ void standardScramble(int** cube){
     u(cube);
     d(cube);
     r(cube);
-    l(cube);
+    b(cube);
     l(cube);
     f(cube);
+    b(cube);
+    b(cube);
     b(cube);
     b(cube);
 }
@@ -185,9 +187,6 @@ void makeWhiteX(int** cube){
             d(cube);
             b(cube);
             d(cube);
-            if(checkWhiteCross(cube)){
-                return;
-            }
         }
         //        whiteLProtocol(cube);
         //red
@@ -221,9 +220,6 @@ void makeWhiteX(int** cube){
             d(cube);
             b(cube);
             d(cube);                                
-            if(checkWhiteCross(cube)){
-                return;
-            }
         }
         //      whiteLProtocol(cube);
         //green 
@@ -256,9 +252,6 @@ void makeWhiteX(int** cube){
             for(i=0; i<3; i++)
                 f(cube);
             d(cube);                                
-            if(checkWhiteCross(cube)){
-                return;
-            }
         }
         //    whiteLProtocol(cube);
         //orange  
@@ -290,9 +283,6 @@ void makeWhiteX(int** cube){
             for(i=0; i<3; i++)
                 l(cube);
             d(cube);                                
-            if(checkWhiteCross(cube)){
-                return;
-            }
         }
         //  whiteLProtocol(cube);
 
@@ -300,42 +290,6 @@ void makeWhiteX(int** cube){
     return;
 }
 
-void whiteLProtocol(int** cube){
-    size_t i;
-    if(cube[4][2]==3 && cube[4][3]==1 && cube[3][4]==1 && cube[2][4]==5 ){ //red and green L
-        for(i=0; i<3; i++)
-            b(cube);
-        d(cube);
-        b(cube);
-        for(i=0; i<3; i++)
-            d(cube);
-    }
-    if(cube[4][2]==3 && cube[4][3]==1 && cube[5][4]==1 && cube[6][4]==4){ //blue and red L
-        l(cube);
-        d(cube);
-        for(i=0; i<3; i++)
-            l(cube);
-        for(i=0; i<3; i++)
-            d(cube);                                
-    }
-    if(cube[4][5]==1 && cube[4][6]==2 && cube[5][4]==1 && cube[6][4]==4){ //orange and blue L
-        f(cube);
-        d(cube);
-        for(i=0; i<3; i++)
-            f(cube);
-        for(i=0; i<3; i++)
-            d(cube);                                
-    }
-    if(cube[4][5]==1 && cube[4][6]==2 && cube[3][4]==1 && cube[2][4]==5){ //orange and green l
-        b(cube);
-        d(cube);
-        for(i=0; i<3; i++)
-            b(cube);
-        for(i=0; i<3; i++)
-            d(cube);                                
-    }
-
-}
 
 bool checkWhiteCross(int** cube){
     int up = checkCube(cube, 3,4);
