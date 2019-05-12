@@ -22,13 +22,45 @@ void fillStdCube(int** cube);
 void whiteLProtocol(int** cube);
 
 int main(void){
+    size_t i;
     int** cube = makeCube();
     fillStdCube(cube);
-  //TODO invert all the edges
-  //TODO test the L protocol func
+/*    for(i=0; i<3; i++)
+        f(cube);
+    l(cube);
+    d(cube);
+    for(i=0; i<3; i++)
+        l(cube);
+    for(i=0; i<2; i++)
+        f(cube);
+    d(cube);
+    for(i=0; i<3; i++)
+        l(cube);
+    for(i=0; i<3; i++)
+        b(cube);
+    d(cube);
+    b(cube);
+    for(i=0; i<2; i++)
+        l(cube);
+    d(cube);
+    b(cube);
+    for(i=0; i<3; i++)
+        r(cube);
+    d(cube);
+    r(cube);
+    for(i=0; i<2; i++)
+        b(cube);
+    d(cube);
+    r(cube);
+    f(cube);
+    d(cube);
+    for(i=0; i<3; i++)
+        f(cube);
+    for(i=0; i<2; i++)
+        r(cube);
+    d(cube);  */
     printCube(cube);     
-//    standardScramble(cube);
-    printCube(cube);     
+    standardScramble(cube);
     makeWhiteX(cube);
     printCube(cube);     
     /*    while (true) {
@@ -141,10 +173,20 @@ void makeWhiteX(int** cube){
                 printf("blue\n");
             }
             else{
+                printCube(cube);
                 continue;
             }
         }
-
+        if(cube[4][2]==3 && cube[4][3]==1 && cube[3][4]==1 && cube[2][4]==5 ){ //red and green L
+            for(i=0; i<3; i++)
+                b(cube);
+            d(cube);
+            b(cube);
+            d(cube);
+            if(checkWhiteCross(cube)){
+                return;
+            }
+        }
         //        whiteLProtocol(cube);
         //red
         for(i=0; i<4; i++){
@@ -167,7 +209,18 @@ void makeWhiteX(int** cube){
                 printf("red\n");
             }
             else{
+                printCube(cube);
                 continue;
+            }
+        }
+        if(cube[4][5]==1 && cube[4][6]==2 && cube[3][4]==1 && cube[2][4]==5){ //orange and green l
+            for(i=0; i<3; i++)
+                b(cube);
+            d(cube);
+            b(cube);
+            d(cube);                                
+            if(checkWhiteCross(cube)){
+                return;
             }
         }
         //      whiteLProtocol(cube);
@@ -185,13 +238,24 @@ void makeWhiteX(int** cube){
                 continue;
             }
             else if (!((cube[3][4] ==1)&& (cube[2][4] ==5))){
-               //switch edge piece
+                //switch edge piece
                 b(cube); 
                 d(cube);        
                 printf("green\n");
             }
             else{
+                printCube(cube);
                 continue;
+            }
+        }
+        if(cube[4][5]==1 && cube[4][6]==2 && cube[5][4]==1 && cube[6][4]==4){ //orange and blue L
+            f(cube);
+            d(cube);
+            for(i=0; i<3; i++)
+                f(cube);
+            d(cube);                                
+            if(checkWhiteCross(cube)){
+                return;
             }
         }
         //    whiteLProtocol(cube);
@@ -209,13 +273,23 @@ void makeWhiteX(int** cube){
                 continue;
             }
             else if (!((cube[4][5] ==1)&& (cube[4][6] ==2))){
-                for(i=0; i<3; i++)                       //switch edge piece
-                    l(cube);
+                r(cube);
                 d(cube);    
                 printf("orange\n");
             }
             else{
+                printCube(cube);
                 continue;
+            }
+        }
+        if(cube[4][2]==3 && cube[4][3]==1 && cube[5][4]==1 && cube[6][4]==4){ //blue and red L
+            l(cube);
+            d(cube);
+            for(i=0; i<3; i++)
+                l(cube);
+            d(cube);                                
+            if(checkWhiteCross(cube)){
+                return;
             }
         }
         //  whiteLProtocol(cube);
@@ -229,34 +303,34 @@ void whiteLProtocol(int** cube){
     if(cube[4][2]==3 && cube[4][3]==1 && cube[3][4]==1 && cube[2][4]==5 ){ //red and green L
         for(i=0; i<3; i++)
             b(cube);
+        d(cube);
+        b(cube);
         for(i=0; i<3; i++)
             d(cube);
-        b(cube);
-        d(cube);
     }
     if(cube[4][2]==3 && cube[4][3]==1 && cube[5][4]==1 && cube[6][4]==4){ //blue and red L
         l(cube);
-        for(i=0; i<3; i++)
-            d(cube);
+        d(cube);
         for(i=0; i<3; i++)
             l(cube);
-        d(cube);                                
+        for(i=0; i<3; i++)
+            d(cube);                                
     }
     if(cube[4][5]==1 && cube[4][6]==2 && cube[5][4]==1 && cube[6][4]==4){ //orange and blue L
         f(cube);
-        for(i=0; i<3; i++)
-            d(cube);
+        d(cube);
         for(i=0; i<3; i++)
             f(cube);
-        d(cube);                                
-    }
-    if(cube[4][5]==1 && cube[4][6]==2 && cube[3][4]==1 && cube[2][4]==5){ //orange and blue L
-        b(cube);
         for(i=0; i<3; i++)
-            d(cube);
+            d(cube);                                
+    }
+    if(cube[4][5]==1 && cube[4][6]==2 && cube[3][4]==1 && cube[2][4]==5){ //orange and green l
+        b(cube);
+        d(cube);
         for(i=0; i<3; i++)
             b(cube);
-        d(cube);                                
+        for(i=0; i<3; i++)
+            d(cube);                                
     }
 
 }
