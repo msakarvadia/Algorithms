@@ -5,6 +5,7 @@
 #include <string.h>
 #include <math.h>
 
+
 int** makeCube();
 void printCube(int** cube);
 void u(int** cube);
@@ -18,11 +19,30 @@ bool checkWhiteCross(int** cube);
 bool checkWhiteCornors(int** cube);
 void swap(int** cube, int r1, int c1, int r2, int c2);
 void makeWhiteX(int** cube);
-void standardScramble(int** cube);
 void fillStdCube(int** cube);
 void makeWhiteCornors(int**cube);
 bool checkMiddle(int** cube);
 void makeMiddle(int** cube);
+
+void standardScramble(int** cube){
+    size_t i;
+    for(i = 0; i<50; i ++){
+        srand(53);
+        int n = rand() %6;
+        if(n==0)
+            u(cube);
+        if(n==1)
+            d(cube);
+        if(n==2)
+            r(cube);
+        if(n==3)
+            l(cube);
+        if(n==4)
+            f(cube);
+        if(n==5)
+            b(cube);
+        }
+}
 
 int main(void){
     size_t i,j;
@@ -112,21 +132,6 @@ void fillStdCube(int** cube){
     
 }
 
-void standardScramble(int** cube){
-    u(cube);
-    l(cube);
-    l(cube);
-    b(cube);
-    u(cube);
-    d(cube);
-    u(cube);
-    r(cube);
-    f(cube);
-    u(cube);
-    u(cube);
-    f(cube);
-    u(cube);
-}
 
 void makeMiddle(int** cube){
     int i, j, k;
@@ -366,6 +371,7 @@ void makeWhiteCornors(int**cube){
     size_t i,j,k;
     while(!checkWhiteCornors(cube)){
         //bottom right
+        d(cube);
         for(i = 0; i < 3; i++){
             if((cube[5][5]==1) && (cube[6][5]==4) &&(cube[5][6]==2)){
                 continue;
