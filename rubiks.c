@@ -24,12 +24,15 @@ void whiteLProtocol(int** cube);
 int main(void){
     int** cube = makeCube();
     fillStdCube(cube);
-    printCube(cube);   
-    standardScramble(cube);
-    printCube(cube);   
+  //TODO invert all the edges
+  //TODO test the L protocol func
+    printCube(cube);     
+//    standardScramble(cube);
+    printCube(cube);     
     makeWhiteX(cube);
-/*    while (true) {
-        printf("insert command (e = exit, f= fillCube): e,f\n");
+    printCube(cube);     
+    /*    while (true) {
+          printf("insert command (e = exit, f= fillCube): e,f\n");
         char cmd='x';
         cmd=getchar();
         if (cmd == 'x'){
@@ -119,58 +122,110 @@ void makeWhiteX(int** cube){
     while(!checkWhiteCross(cube)){               
         //blue
         for(i=0; i<4; i++){
-            if (!((cube[5][4] ==1)&& (cube[6][4] ==4))){
-                if( (cube[5][4]==4) && (cube[6][4]==1)){ //check for inverse side peices
-                    for(i=0; i<3; i++)
-                        f(cube);
+            if( (cube[5][4]==4) && (cube[6][4]==1)){ //check for inverse side peices
+                for(i=0; i<3; i++)
+                    f(cube);
+                l(cube);
+                d(cube);
+                for(i=0; i<3; i++)
                     l(cube);
-                    for(i=0; i<3; i++)
-                        d(cube);
-                    for(i=0; i<3; i++)
-                        l(cube);
-                    for(i=0; i<2; i++)
-                        f(cube);
-                    d(cube);
-                }
+                for(i=0; i<2; i++)
+                    f(cube);
+                d(cube);
+                continue;
+            }
+            else if (!((cube[5][4] ==1)&& (cube[6][4] ==4))){
                 for(i=0; i<3; i++)                       //switch edge piece
                     f(cube);
                 d(cube);    
+                printf("blue\n");
             }
             else{
                 continue;
             }
         }
-        whiteLProtocol(cube);
-        //red TODO
+
+        //        whiteLProtocol(cube);
+        //red
         for(i=0; i<4; i++){
-            if (!((cube[5][4] ==1)&& (cube[6][4] ==4))){
-                if( (cube[5][4]==4) && (cube[6][4]==1)){ //check for inverse side peices
-                    for(i=0; i<3; i++)
-                        f(cube);
+            if( (cube[4][2]==1) && (cube[4][3]==3)){ //check for inverse side peices
+                for(i=0; i<3; i++)
                     l(cube);
-                    for(i=0; i<3; i++)
-                        d(cube);
-                    for(i=0; i<3; i++)
-                        l(cube);
-                    for(i=0; i<2; i++)
-                        f(cube);
-                    d(cube);
-                }
+                for(i=0; i<3; i++)
+                    b(cube);
+                d(cube);
+                b(cube);
+                for(i=0; i<2; i++)
+                    l(cube);
+                d(cube);
+                continue;
+            }
+            else if (!((cube[4][2] ==3)&& (cube[4][3] ==1))){
                 for(i=0; i<3; i++)                       //switch edge piece
-                    f(cube);
+                    l(cube);
                 d(cube);    
+                printf("red\n");
             }
             else{
                 continue;
             }
         }
-        whiteLProtocol(cube);
+        //      whiteLProtocol(cube);
+        //green 
+        for(i=0; i<4; i++){
+            if( (cube[2][4]==1) && (cube[3][4]==5)){ //check for inverse side peices
+                b(cube);
+                for(i=0; i<3; i++)
+                    r(cube);
+                d(cube);
+                r(cube);
+                for(i=0; i<2; i++)
+                    b(cube);
+                d(cube);
+                continue;
+            }
+            else if (!((cube[3][4] ==1)&& (cube[2][4] ==5))){
+               //switch edge piece
+                b(cube); 
+                d(cube);        
+                printf("green\n");
+            }
+            else{
+                continue;
+            }
+        }
+        //    whiteLProtocol(cube);
+        //orange  
+        for(i=0; i<4; i++){
+            if( (cube[4][5]==2) && (cube[4][6]==1)){ //check for inverse side peices
+                r(cube);
+                f(cube);
+                d(cube);
+                for(i=0; i<3; i++)
+                    f(cube);
+                for(i=0; i<2; i++)
+                    r(cube);
+                d(cube);
+                continue;
+            }
+            else if (!((cube[4][5] ==1)&& (cube[4][6] ==2))){
+                for(i=0; i<3; i++)                       //switch edge piece
+                    l(cube);
+                d(cube);    
+                printf("orange\n");
+            }
+            else{
+                continue;
+            }
+        }
+        //  whiteLProtocol(cube);
 
     }
     return;
 }
 
 void whiteLProtocol(int** cube){
+    size_t i;
     if(cube[4][2]==3 && cube[4][3]==1 && cube[3][4]==1 && cube[2][4]==5 ){ //red and green L
         for(i=0; i<3; i++)
             b(cube);
@@ -238,7 +293,7 @@ void printCube(int** cube){
     for(size_t r = 0; r < 9; r++){
         for(size_t c = 0; c <12; c++){
             if(cube[r][c] == 0){
-                printf(" ");
+                printf("__");
             }
             else{
                 printf("%d,", cube[r][c]);
@@ -275,14 +330,14 @@ void u(int** cube){
     printf("Step: U\n");
 }
 
-//"down" - botton layer twisted clock-wise
+//"down" - botton layer twisted counter clock-wise
 void d(int** cube){
     swap(cube,3,10,4,11);
     swap(cube,3,10,5,10);
     swap(cube,3,10,4,9);
     swap(cube,3,9,3,11);
     swap(cube,3,9, 5,11);
-    swap(cube,3,9, 4,11);
+    swap(cube,3,9, 5,9);
     swap(cube,0,5,3,0);
     swap(cube,0,5,8,3);
     swap(cube,0,5,5,8);
@@ -319,7 +374,7 @@ void r(int** cube){
 void l(int** cube){
     swap(cube, 3,1,4,2);
     swap(cube, 3,1,5,1);
-    swap(cube, 3,1,4,2);
+    swap(cube, 3,1,4,0);
     swap(cube, 3,0,3,2);
     swap(cube, 3,0,5,2);
     swap(cube, 3,0,5,0);
@@ -337,40 +392,44 @@ void l(int** cube){
 
 //"front" - twist front face clockwise
 void f(int** cube){
-    swap(cube,6,4,7,3);
-    swap(cube,6,4,8,4);
     swap(cube,6,4,7,5);
-    swap(cube,6,5,6,3);
-    swap(cube,6,5,8,3);
-    swap(cube,6,5,8,5);
-    swap(cube,5,5,5,2);
-    swap(cube,5,5,0,3);
-    swap(cube,5,5,5,8);
-    swap(cube,5,4,5,1);
-    swap(cube,5,4,0,4);
+    swap(cube,6,4,8,4);
+    swap(cube,6,4,7,3);
+
     swap(cube,5,4,5,7);
-    swap(cube,5,3,5,0);
-    swap(cube,5,3,0,5);
+    swap(cube,5,4,5,10);
+    swap(cube,5,4,5,1);
+
+    swap(cube,6,3,6,5);
+    swap(cube,6,3,8,5);
+    swap(cube,6,3,8,3);
+
+    swap(cube,5,5,5,8);
+    swap(cube,5,5,5,11);
+    swap(cube,5,5,5,2);
+
     swap(cube,5,3,5,6);
+    swap(cube,5,3,5,9);
+    swap(cube,5,3,5,0);
     printf("Step: F\n");
     }
 
 //"back" - twist back face clockwise -relative to the human's perception of clockwise
 void b(int** cube){
-    swap(cube, 0,3,0,5);
-    swap(cube, 0,3,2,5);
-    swap(cube, 0,3,2,3);
-    swap(cube, 0,4,1,5);
-    swap(cube, 0,4,2,4);
-    swap(cube, 0,4,1,3);
-    swap(cube, 8,3,3,8);
-    swap(cube, 8,3,3,5);
-    swap(cube, 8,3,3,2);
-    swap(cube, 8,4,3,7);
-    swap(cube, 8,4,3,4);
-    swap(cube, 8,4,3,1);
-    swap(cube, 8,5,3,6);
-    swap(cube, 8,5,3,3);
-    swap(cube, 8,5,3,0);
+    swap(cube, 2,4,1,5);
+    swap(cube, 2,4,0,4);
+    swap(cube, 2,4,1,3);
+    swap(cube, 2,3,2,5);
+    swap(cube, 2,3,0,5);
+    swap(cube, 2,3,0,3);
+    swap(cube, 3,3,3,6);
+    swap(cube, 3,3,3,9);
+    swap(cube, 3,3,3,0);
+    swap(cube, 3,4,3,7);
+    swap(cube, 3,4,3,10);
+    swap(cube, 3,4,3,1);
+    swap(cube, 3,5,3,8);
+    swap(cube, 3,5,3,11);
+    swap(cube, 3,5,3,2);
     printf("Step: B\n");
     }
