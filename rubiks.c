@@ -21,6 +21,8 @@ void makeWhiteX(int** cube);
 void standardScramble(int** cube);
 void fillStdCube(int** cube);
 void makeWhiteCornors(int**cube);
+bool checkMiddle(int** cube);
+void makeMiddle(int** cube);
 
 int main(void){
     size_t i,j;
@@ -30,6 +32,7 @@ int main(void){
     standardScramble(cube);
     makeWhiteX(cube);
     makeWhiteCornors(cube);
+    makeMiddle(cube);
     printCube(cube);     
     
     /*    while (true) {
@@ -112,19 +115,104 @@ void fillStdCube(int** cube){
 void standardScramble(int** cube){
     f(cube);
     b(cube);
-    b(cube);
     u(cube);
     b(cube);
-    l(cube);
     b(cube);
     l(cube);
     l(cube);
     b(cube);
     b(cube);
     f(cube);
-    f(cube);
     l(cube);
     f(cube);
+}
+
+void makeMiddle(int** cube){
+    int i, j, k;
+    while(!checkMiddle(cube)){
+        //blue and orange 
+        for(i = 0; i<3; ++i){
+            if((cube[7][5]==4)&&(cube[5][7]==2))
+                continue;
+            r(cube);
+            d(cube);
+            for(j=0;j<3;j++)
+                r(cube);
+            d(cube);
+            f(cube);
+            for(j=0;j<3;j++)
+                d(cube);
+            for(j=0;j<3;j++)
+                f(cube);
+            d(cube);
+        }
+        //blue and red
+        for(i = 0; i<3; ++i){
+            if((cube[7][3]==4)&&(cube[5][1]==3))
+                continue;
+            for(j=0;j<3;j++)
+                f(cube);
+            d(cube);
+            f(cube);
+            d(cube);
+            l(cube);
+            for(j=0;j<3;j++)
+                d(cube);
+            for(j=0;j<3;j++)
+                l(cube);
+            d(cube);
+        }
+        //red and green
+        for(i = 0; i<3; ++i){
+            if((cube[3][1]==3)&&(cube[1][3]==5))
+                continue;
+            for(j=0;j<3;j++)
+                l(cube);
+            d(cube);
+            l(cube);
+            d(cube);
+            for(j=0;j<3;j++)
+                b(cube);
+            for(j=0;j<3;j++)
+                d(cube);
+            b(cube);
+            d(cube);
+        }
+        //green and orange        TODO THIS IS WHERE PROBLEM ARRISES
+        for(i = 0; i<3; ++i){
+            if((cube[1][5]==5)&&(cube[3][7]==2))
+                return;
+            b(cube);
+            d(cube);
+            for(j=0;j<3;j++)
+                b(cube);
+            d(cube);
+            for(j=0;j<3;j++)
+                r(cube);
+            for(j=0;j<3;j++)
+                d(cube);
+            r(cube);
+            d(cube);
+        }
+    }
+    return;
+}
+
+bool checkMiddle(int** cube){
+    int rb = checkCube(cube, 5,1);
+    int br = checkCube(cube, 7,3);
+    int bo = checkCube(cube, 7,5);
+    int ob = checkCube(cube, 5,7);
+    int rg= checkCube(cube, 3,1);
+    int gr = checkCube(cube, 1,3);
+    int ro = checkCube(cube, 1,5);
+    int or = checkCube(cube, 3,7);
+    if(rb && br && bo && ob && rg && gr && ro && or){
+        return true;
+    }
+    else
+        return false;
+
 }
 
 void makeWhiteX(int** cube){
