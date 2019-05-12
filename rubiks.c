@@ -23,13 +23,15 @@ void fillStdCube(int** cube);
 void makeWhiteCornors(int**cube);
 
 int main(void){
-    size_t i;
+    size_t i,j;
     int** cube = makeCube();
     fillStdCube(cube);
     printCube(cube);     
     standardScramble(cube);
     makeWhiteX(cube);
+    makeWhiteCornors(cube);
     printCube(cube);     
+    
     /*    while (true) {
           printf("insert command (e = exit, f= fillCube): e,f\n");
         char cmd='x';
@@ -108,15 +110,15 @@ void fillStdCube(int** cube){
 }
 
 void standardScramble(int** cube){
+    f(cube);
     u(cube);
-    r(cube);
-    l(cube);
-    f(cube);
-    b(cube);
-    b(cube);
     b(cube);
     l(cube);
     f(cube);
+    b(cube);
+    b(cube);
+    l(cube);
+    b(cube);
     b(cube);
     f(cube);
     l(cube);
@@ -271,21 +273,25 @@ bool checkWhiteCross(int** cube){
     }
     return false;
 }
-       
+
 void makeWhiteCornors(int**cube){
-    size_t i,j;
+    size_t i,j,k;
     while(!checkWhiteCornors(cube)){
         //bottom right
         for(i = 0; i < 4; i++){
-            if((checkCube(cube, 5,5) && checkCube(cube, 6,5)))
-                return;
+            if((cube[5][5]==1) && (cube[6][5]==4)){
+                printf("br\n");
+                continue;
+            }
             r(cube);
             for(j = 0; j < 3; j++)
                 d(cube);
             for(j = 0; j < 3; j++)
                 r(cube);
-            for(j=0; j < 3; j++){
-                if(!(checkCube(cube, 5,5) && checkCube(cube, 6,5))){
+            d(cube);
+             printf("switch edge bottom right\n");
+            for(k=0; k < 3; k++){
+                if(!((cube[5][5]==1) && (cube[6][5]==4))){
                     r(cube);
                     for(j = 0; j < 3; j++)
                         d(cube);
@@ -298,37 +304,110 @@ void makeWhiteCornors(int**cube){
                     for(j = 0; j < 3; j++)
                         r(cube);
                 }                                                      
+                else
+                    continue;
             }
         }
-    //bottom left
-       for(i = 0; i < 4; i++){
-           if(checkCube(cube, 5,3) && checkCube(cube, 6,3))
-               return
+        //bottom left
+        for(i = 0; i < 4; i++){
+            if((cube[5][3]==1) && (cube[6][3]==4)){
+                printf("bl\n");
+                printCube(cube);
+                continue;
+            }
             for(j = 0; j < 3; j++)
                 f(cube);
             for(j = 0; j < 3; j++)
                 d(cube);
             f(cube);
-            for(j=0; j<3; j++){
-               //TODO ADD THIS NONSENSE
-                for(j = 0; j < 3; j++)
+            d(cube);
+             printf("switch edge bottom left\n");
+            for(k=0; k < 3; k++){
+                if(!((cube[5][3]==1) && (cube[6][3]==4))){
+                    for(j = 0; j < 3; j++)
+                        f(cube);
+                    for(j = 0; j < 3; j++)
+                        d(cube);
                     f(cube);
-                for(j = 0; j < 3; j++)
                     d(cube);
-                f(cube);
-                d(cube);
-                for(j = 0; j < 3; j++)
+                    for(j = 0; j < 3; j++)
+                        f(cube);
+                    for(j = 0; j < 3; j++)
+                        d(cube);
                     f(cube);
-                for(j = 0; j < 3; j++)
-                    d(cube);
-                f(cube);
+                }
+                else{
+                    printCube(cube);
+                    continue;
+                }
             }
 
-       }
-       //back left
+        }
+        //back left  
+        for(i = 0; i < 4; i++){
+            if((cube[3][3]==1) && (cube[2][3]==5)){
+                printf("tl\n");
+                continue;                          
+            }
+            for(j = 0; j < 3; j++)
+                l(cube);
+            for(j = 0; j < 3; j++)
+                d(cube);
+            l(cube);           
+            d(cube);
+            printf("switch edge top left\n");
+            for(k=0; k < 3; k++){
+                if(!((cube[3][3]==1) && (cube[2][3]==5))){
+                    for(j = 0; j < 3; j++)
+                        l(cube);
+                    for(j = 0; j < 3; j++)
+                        d(cube);
+                    l(cube);
+                    d(cube);
+                    for(j = 0; j < 3; j++)
+                        l(cube);
+                    for(j = 0; j < 3; j++)
+                        d(cube);
+                    l(cube);
+                }
+                else
+                    continue;
+            }
+        }
 
-       //back right
+        //back right
+        for(i = 0; i < 4; i++){
+            if((cube[3][5]==1) && (cube[2][5]==5)){
+                printf("tr\n");
+                continue;
+        }
+            b(cube);
+            for(j = 0; j < 3; j++)
+                d(cube);
+            for(j = 0; j < 3; j++)
+                b(cube);
+            d(cube);
+            printf("switch edge top right\n");
+            for(k=0; k < 3; k++){
+                if(!((cube[3][5]==1) && (cube[2][5]==5))){
+                    b(cube);
+                    for(j = 0; j < 3; j++)
+                        d(cube);
+                    for(j = 0; j < 3; j++)
+                        b(cube);
+                    d(cube);
+                    b(cube);
+                    for(j = 0; j < 3; j++)
+                        d(cube);
+                    for(j = 0; j < 3; j++)
+                        b(cube);
+                }
+                else
+                    continue;
+            }
+        }
     }
+  //  printf("return from white cornor\N");
     return;
 }
 
@@ -407,8 +486,8 @@ void d(int** cube){
     swap(cube,3,10,5,10);
     swap(cube,3,10,4,9);
     swap(cube,3,9,3,11);
-    swap(cube,3,9, 5,11);
-    swap(cube,3,9, 5,9);
+    swap(cube,3,9,5,11);
+    swap(cube,3,9,5,9);
     swap(cube,0,5,3,0);
     swap(cube,0,5,8,3);
     swap(cube,0,5,5,8);
