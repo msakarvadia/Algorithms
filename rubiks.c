@@ -15,11 +15,12 @@ void l(int** cube);
 void r(int** cube);
 bool checkCube(int** cube, int row, int col);
 bool checkWhiteCross(int** cube);
+bool checkWhiteCornors(int** cube);
 void swap(int** cube, int r1, int c1, int r2, int c2);
 void makeWhiteX(int** cube);
 void standardScramble(int** cube);
 void fillStdCube(int** cube);
-void whiteLProtocol(int** cube);
+void makeWhiteCornors(int**cube);
 
 int main(void){
     size_t i;
@@ -108,36 +109,39 @@ void fillStdCube(int** cube){
 
 void standardScramble(int** cube){
     u(cube);
-    d(cube);
     r(cube);
-    b(cube);
     l(cube);
     f(cube);
     b(cube);
     b(cube);
     b(cube);
+    l(cube);
+    f(cube);
     b(cube);
+    f(cube);
+    l(cube);
+    f(cube);
 }
 
 void makeWhiteX(int** cube){
-    size_t i;
+    size_t i,j;       
     while(!checkWhiteCross(cube)){               
         //blue
         for(i=0; i<4; i++){
             if( (cube[5][4]==4) && (cube[6][4]==1)){ //check for inverse side peices
-                for(i=0; i<3; i++)
+                for(j=0; j<3; j++)
                     f(cube);
                 l(cube);
                 d(cube);
-                for(i=0; i<3; i++)
+                for(j=0; j<3; j++)
                     l(cube);
-                for(i=0; i<2; i++)
+                for(j=0; j<2; j++)
                     f(cube);
                 d(cube);
                 continue;
             }
             else if (!((cube[5][4] ==1)&& (cube[6][4] ==4))){
-                for(i=0; i<3; i++)                       //switch edge piece
+                for(j=0; j<3; j++)                       //switch edge piece
                     f(cube);
                 d(cube);    
     //            printf("blue\n");
@@ -157,19 +161,19 @@ void makeWhiteX(int** cube){
         //red
         for(i=0; i<4; i++){
             if( (cube[4][2]==1) && (cube[4][3]==3)){ //check for inverse side peices
-                for(i=0; i<3; i++)
+                for(j=0; j<3; j++)
                     l(cube);
-                for(i=0; i<3; i++)
+                for(j=0; j<3; j++)
                     b(cube);
                 d(cube);
                 b(cube);
-                for(i=0; i<2; i++)
+                for(j=0; j<2; j++)
                     l(cube);
                 d(cube);
                 continue;
             }
             else if (!((cube[4][2] ==3)&& (cube[4][3] ==1))){
-                for(i=0; i<3; i++)                       //switch edge piece
+                for(j=0; j<3; j++)
                     l(cube);
                 d(cube);    
           //      printf("red\n");
@@ -187,7 +191,7 @@ void makeWhiteX(int** cube){
             d(cube);                                
         }
         //green 
-        for(i=0; i<4; i++){
+        for(j=0; j<4;j++){
             if( (cube[2][4]==1) && (cube[3][4]==5)){ //check for inverse side peices
                 b(cube);
                 for(i=0; i<3; i++)
@@ -218,7 +222,7 @@ void makeWhiteX(int** cube){
             d(cube);                                
         }
         //orange  
-        for(i=0; i<4; i++){
+        for(j=0; j<4; j++){
             if( (cube[4][5]==2) && (cube[4][6]==1)){ //check for inverse side peices
                 r(cube);
                 f(cube);
@@ -265,6 +269,81 @@ bool checkWhiteCross(int** cube){
     if(up && down && right && left && upbelow && downbelow && rightbelow && leftbelow){
         return true;
     }
+    return false;
+}
+       
+void makeWhiteCornors(int**cube){
+    size_t i,j;
+    while(!checkWhiteCornors(cube)){
+        //bottom right
+        for(i = 0; i < 4; i++){
+            if((checkCube(cube, 5,5) && checkCube(cube, 6,5)))
+                return;
+            r(cube);
+            for(j = 0; j < 3; j++)
+                d(cube);
+            for(j = 0; j < 3; j++)
+                r(cube);
+            for(j=0; j < 3; j++){
+                if(!(checkCube(cube, 5,5) && checkCube(cube, 6,5))){
+                    r(cube);
+                    for(j = 0; j < 3; j++)
+                        d(cube);
+                    for(j = 0; j < 3; j++)
+                        r(cube);
+                    d(cube);
+                    r(cube);
+                    for(j = 0; j < 3; j++)
+                        d(cube);
+                    for(j = 0; j < 3; j++)
+                        r(cube);
+                }                                                      
+            }
+        }
+    //bottom left
+       for(i = 0; i < 4; i++){
+           if(checkCube(cube, 5,3) && checkCube(cube, 6,3))
+               return
+            for(j = 0; j < 3; j++)
+                f(cube);
+            for(j = 0; j < 3; j++)
+                d(cube);
+            f(cube);
+            for(j=0; j<3; j++){
+               //TODO ADD THIS NONSENSE
+                for(j = 0; j < 3; j++)
+                    f(cube);
+                for(j = 0; j < 3; j++)
+                    d(cube);
+                f(cube);
+                d(cube);
+                for(j = 0; j < 3; j++)
+                    f(cube);
+                for(j = 0; j < 3; j++)
+                    d(cube);
+                f(cube);
+            }
+
+       }
+       //back left
+
+       //back right
+    }
+    return;
+}
+
+bool checkWhiteCornors(int** cube){
+    int r = checkCube(cube,5,5);
+    int rb= checkCube(cube, 6,5);
+    int l = checkCube(cube, 5,3);
+    int lb = checkCube(cube, 6,3);
+    int bl = checkCube(cube, 3,3);
+    int blb = checkCube(cube, 2,3);
+    int br = checkCube(cube, 3,5);
+    int brb = checkCube(cube, 2,5);
+    if(r && rb && l && lb &&  bl && blb && br && brb){
+        return true;
+        }
     return false;
 }
 
