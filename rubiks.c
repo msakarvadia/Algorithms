@@ -111,15 +111,17 @@ void fillStdCube(int** cube){
 
 void standardScramble(int** cube){
     f(cube);
+    b(cube);
+    b(cube);
     u(cube);
     b(cube);
     l(cube);
-    f(cube);
     b(cube);
-    b(cube);
+    l(cube);
     l(cube);
     b(cube);
     b(cube);
+    f(cube);
     f(cube);
     l(cube);
     f(cube);
@@ -280,7 +282,6 @@ void makeWhiteCornors(int**cube){
         //bottom right
         for(i = 0; i < 4; i++){
             if((cube[5][5]==1) && (cube[6][5]==4)){
-                printf("br\n");
                 continue;
             }
             r(cube);
@@ -289,7 +290,6 @@ void makeWhiteCornors(int**cube){
             for(j = 0; j < 3; j++)
                 r(cube);
             d(cube);
-             printf("switch edge bottom right\n");
             for(k=0; k < 3; k++){
                 if(!((cube[5][5]==1) && (cube[6][5]==4))){
                     r(cube);
@@ -311,8 +311,6 @@ void makeWhiteCornors(int**cube){
         //bottom left
         for(i = 0; i < 4; i++){
             if((cube[5][3]==1) && (cube[6][3]==4)){
-                printf("bl\n");
-                printCube(cube);
                 continue;
             }
             for(j = 0; j < 3; j++)
@@ -321,7 +319,6 @@ void makeWhiteCornors(int**cube){
                 d(cube);
             f(cube);
             d(cube);
-             printf("switch edge bottom left\n");
             for(k=0; k < 3; k++){
                 if(!((cube[5][3]==1) && (cube[6][3]==4))){
                     for(j = 0; j < 3; j++)
@@ -337,7 +334,6 @@ void makeWhiteCornors(int**cube){
                     f(cube);
                 }
                 else{
-                    printCube(cube);
                     continue;
                 }
             }
@@ -346,7 +342,6 @@ void makeWhiteCornors(int**cube){
         //back left  
         for(i = 0; i < 4; i++){
             if((cube[3][3]==1) && (cube[2][3]==5)){
-                printf("tl\n");
                 continue;                          
             }
             for(j = 0; j < 3; j++)
@@ -355,7 +350,6 @@ void makeWhiteCornors(int**cube){
                 d(cube);
             l(cube);           
             d(cube);
-            printf("switch edge top left\n");
             for(k=0; k < 3; k++){
                 if(!((cube[3][3]==1) && (cube[2][3]==5))){
                     for(j = 0; j < 3; j++)
@@ -378,7 +372,6 @@ void makeWhiteCornors(int**cube){
         //back right
         for(i = 0; i < 4; i++){
             if((cube[3][5]==1) && (cube[2][5]==5)){
-                printf("tr\n");
                 continue;
         }
             b(cube);
@@ -387,7 +380,6 @@ void makeWhiteCornors(int**cube){
             for(j = 0; j < 3; j++)
                 b(cube);
             d(cube);
-            printf("switch edge top right\n");
             for(k=0; k < 3; k++){
                 if(!((cube[3][5]==1) && (cube[2][5]==5))){
                     b(cube);
@@ -407,7 +399,6 @@ void makeWhiteCornors(int**cube){
             }
         }
     }
-  //  printf("return from white cornor\N");
     return;
 }
 
