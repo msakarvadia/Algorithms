@@ -145,7 +145,9 @@ void standardScramble(int** cube){
     d(cube);
     r(cube);
     l(cube);
+    l(cube);
     f(cube);
+    b(cube);
     b(cube);
 }
 
@@ -215,7 +217,7 @@ void makeWhiteX(int** cube){
         }
         if(cube[4][5]==1 && cube[4][6]==2 && cube[3][4]==1 && cube[2][4]==5){ //orange and green l
             for(i=0; i<3; i++)
-                b(cube);
+                r(cube);
             d(cube);
             b(cube);
             d(cube);                                
