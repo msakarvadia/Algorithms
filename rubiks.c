@@ -154,8 +154,72 @@ void makeMiddle(int** cube){
                 f(cube);
             printf("blue and orange\n");
         }
+        for(i = 0; i<1; ++i){
+            if((cube[7][5]==4)&&(cube[5][7]==2))     {
+                continue;                             }
+            r(cube);
+            d(cube);
+            for(j=0;j<3;j++)
+                r(cube);
+            d(cube);
+            f(cube);
+            for(j=0;j<3;j++)
+                d(cube);
+            for(j=0;j<3;j++)
+                f(cube);
+            printf("blue and orange\n");
+        }
+        for(i = 0; i<3; ++i){
+            if((cube[7][5]==4)&&(cube[5][7]==2))     {
+                continue;                             }
+            for(j=0;j<3;j++)
+                d(cube);
+            r(cube);
+            d(cube);
+            for(j=0;j<3;j++)
+                r(cube);
+            d(cube);
+            f(cube);
+            for(j=0;j<3;j++)
+                d(cube);
+            for(j=0;j<3;j++)
+                f(cube);
+            printf("blue and orange\n");
+        }
         //blue and red 
         for(i = 0; i<4; ++i){
+            if((cube[7][3]==4)&&(cube[5][1]==3))    {
+                continue;                          }
+            for(j=0;j<3;j++)
+                d(cube);
+            for(j=0;j<3;j++)
+                f(cube);
+            d(cube);
+            f(cube);
+            d(cube);
+            l(cube);
+            for(j=0;j<3;j++)
+                d(cube);
+            for(j=0;j<3;j++)
+                l(cube);
+            printf("blue and red\n");
+        }
+        for(i = 0; i<1; ++i){
+            if((cube[7][3]==4)&&(cube[5][1]==3))    {
+                continue;                          }
+            for(j=0;j<3;j++)
+                f(cube);
+            d(cube);
+            f(cube);
+            d(cube);
+            l(cube);
+            for(j=0;j<3;j++)
+                d(cube);
+            for(j=0;j<3;j++)
+                l(cube);
+            printf("blue and red\n");
+        }
+        for(i = 0; i<3; ++i){
             if((cube[7][3]==4)&&(cube[5][1]==3))    {
                 continue;                          }
             for(j=0;j<3;j++)
@@ -190,6 +254,38 @@ void makeMiddle(int** cube){
             b(cube);
             printf("red and green\n");
         }
+        for(i = 0; i<1; ++i){
+            if((cube[3][1]==3)&&(cube[1][3]==5))  {
+                continue;                         }
+            for(j=0;j<3;j++)
+                l(cube);
+            d(cube);
+            l(cube);
+            d(cube);
+            for(j=0;j<3;j++)
+                b(cube);
+            for(j=0;j<3;j++)
+                d(cube);
+            b(cube);
+            printf("red and green\n");
+        }
+        for(i = 0; i<3; ++i){
+            if((cube[3][1]==3)&&(cube[1][3]==5))  {
+                continue;                         }
+            for(j=0;j<3;j++)
+                d(cube);
+            for(j=0;j<3;j++)
+                l(cube);
+            d(cube);
+            l(cube);
+            d(cube);
+            for(j=0;j<3;j++)
+                b(cube);
+            for(j=0;j<3;j++)
+                d(cube);
+            b(cube);
+            printf("red and green\n");
+        }
         //green and orange       
         for(i = 0; i<4; ++i){
             if((cube[1][5]==5)&&(cube[3][7]==2)){
@@ -208,9 +304,39 @@ void makeMiddle(int** cube){
             r(cube);
             printf("green and orange\n");
         }
+        for(i = 0; i<1; ++i){
+            if((cube[1][5]==5)&&(cube[3][7]==2)){
+                continue;}
+            b(cube);
+            d(cube);
+            for(j=0;j<3;j++)
+                b(cube);
+            d(cube);
+            for(j=0;j<3;j++)
+                r(cube);
+            for(j=0;j<3;j++)
+                d(cube);
+            r(cube);
+            printf("green and orange\n");
+        }
+        for(i = 0; i<3; ++i){
+            if((cube[1][5]==5)&&(cube[3][7]==2)){
+                continue;}
+            for(j=0;j<3;j++)
+                d(cube);
+            b(cube);
+            d(cube);
+            for(j=0;j<3;j++)
+                b(cube);
+            d(cube);
+            for(j=0;j<3;j++)
+                r(cube);
+            for(j=0;j<3;j++)
+                d(cube);
+            r(cube);
+            printf("green and orange\n");
+        }
     }
-    for(j=0;j<3;j++)
-        d(cube);
     return;
 }
 
