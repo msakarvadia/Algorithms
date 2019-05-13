@@ -26,8 +26,8 @@ void makeMiddle(int** cube);
 
 void standardScramble(int** cube){
     size_t i;
+    srand(time(NULL));
     for(i = 0; i<50; i ++){
-        srand(53);
         int n = rand() %6;
         if(n==0)
             u(cube);
@@ -134,12 +134,14 @@ void fillStdCube(int** cube){
 
 
 void makeMiddle(int** cube){
-    int i, j, k;
+    int i, j;
     while(!checkMiddle(cube)){
         //blue and orange 
-        for(i = 0; i<3; ++i){
+        for(i = 0; i<4; ++i){
             if((cube[7][5]==4)&&(cube[5][7]==2))     {
                 continue;                             }
+            for(j=0;j<3;j++)
+                d(cube);
             r(cube);
             d(cube);
             for(j=0;j<3;j++)
@@ -150,12 +152,15 @@ void makeMiddle(int** cube){
                 d(cube);
             for(j=0;j<3;j++)
                 f(cube);
+            printf("blue and orange\n");
         }
         //blue and red 
-        for(i = 0; i<3; ++i){
+        for(i = 0; i<4; ++i){
             if((cube[7][3]==4)&&(cube[5][1]==3))    {
                 continue;                          }
             for(j=0;j<3;j++)
+                d(cube);
+            for(j=0;j<3;j++)
                 f(cube);
             d(cube);
             f(cube);
@@ -165,11 +170,14 @@ void makeMiddle(int** cube){
                 d(cube);
             for(j=0;j<3;j++)
                 l(cube);
+            printf("blue and red\n");
         }
         //red and green
-        for(i = 0; i<3; ++i){
+        for(i = 0; i<4; ++i){
             if((cube[3][1]==3)&&(cube[1][3]==5))  {
-               continue;                         }
+                continue;                         }
+            for(j=0;j<3;j++)
+                d(cube);
             for(j=0;j<3;j++)
                 l(cube);
             d(cube);
@@ -180,11 +188,14 @@ void makeMiddle(int** cube){
             for(j=0;j<3;j++)
                 d(cube);
             b(cube);
+            printf("red and green\n");
         }
         //green and orange       
-        for(i = 0; i<3; ++i){
+        for(i = 0; i<4; ++i){
             if((cube[1][5]==5)&&(cube[3][7]==2)){
                 continue;}
+            for(j=0;j<3;j++)
+                d(cube);
             b(cube);
             d(cube);
             for(j=0;j<3;j++)
@@ -195,9 +206,11 @@ void makeMiddle(int** cube){
             for(j=0;j<3;j++)
                 d(cube);
             r(cube);
+            printf("green and orange\n");
         }
-        d(cube);
     }
+    for(j=0;j<3;j++)
+        d(cube);
     return;
 }
 
@@ -233,13 +246,14 @@ void makeWhiteX(int** cube){
                 for(j=0; j<2; j++)
                     f(cube);
                 d(cube);
+                printf("white x");
                 continue;
             }
             else if (!((cube[5][4] ==1)&& (cube[6][4] ==4))){
                 for(j=0; j<3; j++)                       //switch edge piece
                     f(cube);
                 d(cube);    
-    //            printf("blue\n");
+                printf("blue\n");
             }
             else{
       //          printCube(cube);
@@ -271,7 +285,7 @@ void makeWhiteX(int** cube){
                 for(j=0; j<3; j++)
                     l(cube);
                 d(cube);    
-          //      printf("red\n");
+                printf("red\n");
             }
             else{
         //        printCube(cube);
@@ -302,7 +316,7 @@ void makeWhiteX(int** cube){
                 //switch edge piece
                 b(cube); 
                 d(cube);        
-            //    printf("green\n");
+                printf("green\n");
             }
             else{
               //  printCube(cube);
@@ -332,7 +346,7 @@ void makeWhiteX(int** cube){
             else if (!((cube[4][5] ==1)&& (cube[4][6] ==2))){
                 r(cube);
                 d(cube);    
-              //  printf("orange\n");
+                printf("orange\n");
             }
             else{
                // printCube(cube);
@@ -369,9 +383,12 @@ bool checkWhiteCross(int** cube){
 
 void makeWhiteCornors(int**cube){
     size_t i,j,k;
+
     while(!checkWhiteCornors(cube)){
         //bottom right
-        d(cube);
+     //   d(cube);
+            for(j = 0; j < 3; j++)
+                d(cube);
         for(i = 0; i < 3; i++){
             if((cube[5][5]==1) && (cube[6][5]==4) &&(cube[5][6]==2)){
                 continue;
@@ -381,8 +398,9 @@ void makeWhiteCornors(int**cube){
                 d(cube);
             for(j = 0; j < 3; j++)
                 r(cube);
-            d(cube);
-            for(k=0; k < 3; k++){
+       //     d(cube);
+            printf("br chenge\n");
+            for(k=0; k < 2; k++){
                 if(!((cube[5][5]==1) && (cube[6][5]==4) && (cube[5][6]==2))){
                     r(cube);
                     for(j = 0; j < 3; j++)
@@ -395,9 +413,11 @@ void makeWhiteCornors(int**cube){
                         d(cube);
                     for(j = 0; j < 3; j++)
                         r(cube);
+            printf("br orient\n");
                 }                                                      
-                else
+                else{
                     continue;
+                }
             }
         }
         //bottom left
@@ -409,9 +429,11 @@ void makeWhiteCornors(int**cube){
                 f(cube);
             for(j = 0; j < 3; j++)
                 d(cube);
-            f(cube);
-            d(cube);
-            for(k=0; k < 3; k++){
+            f(cube);         
+         //   d(cube);
+            printf("fl chenge\n");
+
+            for(k=0; k < 2; k++){
                 if(!((cube[5][3]==1) && (cube[6][3]==4) && (cube[5][2]==3))){
                     for(j = 0; j < 3; j++)
                         f(cube);
@@ -424,6 +446,9 @@ void makeWhiteCornors(int**cube){
                     for(j = 0; j < 3; j++)
                         d(cube);
                     f(cube);
+
+            printf("fl orient\n");
+
                 }
                 else{
                     continue;
@@ -441,8 +466,9 @@ void makeWhiteCornors(int**cube){
             for(j = 0; j < 3; j++)
                 d(cube);
             l(cube);           
-            d(cube);
-            for(k=0; k < 3; k++){
+            printf("bl orient\n");
+           // d(cube);
+            for(k=0; k < 2; k++){
                 if(!((cube[3][3]==1) && (cube[2][3]==5) && (cube[3][2]==3))){
                     for(j = 0; j < 3; j++)
                         l(cube);
@@ -455,9 +481,11 @@ void makeWhiteCornors(int**cube){
                     for(j = 0; j < 3; j++)
                         d(cube);
                     l(cube);
+                    printf("bl orient\n");
                 }
-                else
+                else{
                     continue;
+                }
             }
         }
 
@@ -471,8 +499,10 @@ void makeWhiteCornors(int**cube){
                 d(cube);
             for(j = 0; j < 3; j++)
                 b(cube);
-            d(cube);
-            for(k=0; k < 3; k++){
+          //  d(cube);
+            //switched cornor    
+            printf("back right switched cornor\n");
+            for(k=0; k < 2; k++){
                 if(!((cube[3][5]==1) && (cube[2][5]==5) && (cube[3][6]==2))){
                     b(cube);
                     for(j = 0; j < 3; j++)
@@ -485,9 +515,12 @@ void makeWhiteCornors(int**cube){
                         d(cube);
                     for(j = 0; j < 3; j++)
                         b(cube);
+                //switched orientation        
+                printf("back right switched orientation\n");
                 }
-                else
+                else{
                     continue;
+                }
             }
         }
     }
