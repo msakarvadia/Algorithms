@@ -23,6 +23,7 @@ void fillStdCube(int** cube);
 void makeWhiteCornors(int**cube);
 bool checkMiddle(int** cube);
 void makeMiddle(int** cube);
+void yellowL(int** cube);
 
 void standardScramble(int** cube){
     size_t i;
@@ -44,6 +45,7 @@ void standardScramble(int** cube){
         }
 }
 
+
 int main(void){
     size_t i,j;
     int** cube = makeCube();
@@ -53,6 +55,7 @@ int main(void){
     makeWhiteX(cube);
     makeWhiteCornors(cube);
     makeMiddle(cube);
+    yellowL(cube);
     printCube(cube);     
     
     /*    while (true) {
@@ -132,6 +135,24 @@ void fillStdCube(int** cube){
     
 }
 
+void yellowL(int** cube){
+    int i, j;
+    while(!((cube[4][9]==6)&& (cube[3][10]==6))){
+        for(i=0; i<4; i++){
+            f(cube);
+            l(cube);
+            d(cube);
+            for(j=0;j<3; j++)
+                l(cube);
+            for(j=0;j<3; j++)
+                d(cube);
+            for(j=0;j<3; j++)
+                f(cube);
+        }
+        d(cube);
+    }
+    return;
+}
 
 void makeMiddle(int** cube){
     int i, j;
