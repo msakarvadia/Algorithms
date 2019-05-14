@@ -24,6 +24,8 @@ void makeWhiteCornors(int**cube);
 bool checkMiddle(int** cube);
 void makeMiddle(int** cube);
 void yellowL(int** cube);
+void yellowCornorPlace(int** cube); //puts yellow cornors in correct place before they can be oriented
+bool checkYellowCornorPlace(int**cube);
 
 void standardScramble(int** cube){
     size_t i;
@@ -56,6 +58,7 @@ int main(void){
     makeWhiteCornors(cube);
     makeMiddle(cube);
     yellowL(cube);
+    yellowCornorPlace(cube);
     printCube(cube);     
     
     /*    while (true) {
@@ -133,6 +136,54 @@ void fillStdCube(int** cube){
         }
     }
     
+}
+
+bool checkYellowCornorPlace(int**cube){
+    if(((cube[3][8]==2)||(cube[3][9]==2)||(cube[0][5]==2))&&((cube[3][8]==5)||(cube[3][9]==5) ||(cube[0][5]==5))){
+        if((cube[3][8]+cube[3][9]+cube[0][5])==13){
+            if((cube[3][11]==3|| cube[3][0]==3 ||cube[0][3]==3)&&(cube[3][11]==5|| cube[3][0]==5 ||cube[0][3]==5)){
+                if((cube[3][11]+cube[3][0]+cube[0][3])==14){
+                    if((cube[5][11]==3|| cube[5][0]==3 ||cube[8][3]==3)&&(cube[5][11]==4|| cube[5][0]==4 ||cube[8][3]==4)){
+                        if((cube[5][11]+cube[5][0]+cube[8][3])==13){
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+
+void yellowCornorPlace(int** cube){
+    int i,j;
+    while(!checkYellowCornorPlace(cube)){
+        for(i=0; i<3; i++){
+            if(checkYellowCornorPlace(cube))
+                return;
+            for(j=0; j<3; j++)
+                r(cube);
+            for(j=0; j<3; j++)
+                d(cube);
+            for(j=0; j<3; j++)
+                l(cube);
+            d(cube);
+            r(cube);
+            for(j=0; j<3; j++)
+                d(cube);
+            l(cube);
+            d(cube);
+            if(checkYellowCornorPlace(cube))
+                return;
+            for(j=0; j<3; j++){
+                d(cube);
+                if(checkYellowCornorPlace(cube))
+                    return;
+            }
+        }
+            d(cube);
+    }
+    return;
 }
 
 void yellowL(int** cube){
