@@ -139,188 +139,6 @@ void fillStdCube(int** cube){
             cube[r][c] = 4; //this face is blue
         }
     }
-
-}
-
-void yellowCornorUp(int** cube){
-    int i, j;
-    while(!checkYellowCornorUp(cube)){
-        if(cube[3][8]==6 && (!((checkCube(cube, 3,9)) ^ (checkCube(cube, 3,11)) ^ (checkCube(cube, 5,11)) ^ (!checkCube(cube,5,9))))){
-            for(i=0;i<3;++i ){
-                if((checkCube(cube, 3,9)) ^ (checkCube(cube, 3,11)) ^ (checkCube(cube, 5,11)) ^ (!checkCube(cube,5,9))){
-                    printf("cont\n");
-                    continue;   }
-                f(cube);
-                d(cube);
-                for(j=0;j<3;j++)
-                    f(cube);
-                d(cube);
-                f(cube);
-                for(j=0;j<2;j++)
-                    d(cube);
-                for(j=0;j<3;j++)
-                    f(cube);
-                for(j=0;j<2;j++)
-                    d(cube);
-            }
-        }
-        if(cube[8][5]==6 && (!((checkCube(cube, 3,9)) ^ (checkCube(cube, 3,11)) ^ (checkCube(cube, 5,11)) ^ (!checkCube(cube,5,9))))){
-            for(i=0;i<3;++i){
-                if((checkCube(cube, 3,9)) ^ (checkCube(cube, 3,11)) ^ (checkCube(cube, 5,11)) ^ (!checkCube(cube,5,9)))      {
-                    printf("cont\n");
-                    continue; }                                                                                                
-                l(cube);
-                d(cube);
-                for(j=0;j<3;j++)
-                    l(cube);
-                d(cube);
-                l(cube);
-                for(j=0;j<2;j++)
-                    d(cube);
-                for(j=0;j<3;j++)
-                    l(cube);
-                for(j=0;j<2;j++)
-                    d(cube);
-            }            
-        }
-        if(cube[0][3]==6 && (!((checkCube(cube, 3,9)) ^ (checkCube(cube, 3,11)) ^ (checkCube(cube, 5,11)) ^ (!checkCube(cube,5,9))))){
-            for(i=0;i<3;++i){
-                if((checkCube(cube, 3,9)) ^ (checkCube(cube, 3,11)) ^ (checkCube(cube, 5,11)) ^ (!checkCube(cube,5,9)))     {
-                    printf("cont\n");
-                    continue;  }                                                               
-                for(j=0;j<3;j++)                                                              
-                    r(cube);
-                d(cube);
-                r(cube);
-                d(cube);
-                for(j=0;j<2;j++)
-                    r(cube);
-                for(j=0;j<2;j++)
-                    d(cube);
-                r(cube);
-                for(j=0;j<2;j++)
-                    d(cube);
-            }
-        }
-        if(cube[5][0]==6 && (!((checkCube(cube, 3,9)) ^ (checkCube(cube, 3,11)) ^ (checkCube(cube, 5,11)) ^ (!checkCube(cube,5,9))))){
-            for(i=0;i<3;++i){
-                if((checkCube(cube, 3,9)) ^ (checkCube(cube, 3,11)) ^ (checkCube(cube, 5,11)) ^ (!checkCube(cube,5,9))) {
-                    printf("cont\n");
-                    continue;}
-                for(j=0;j<3;j++)
-                    b(cube);
-                d(cube);
-                b(cube);
-                d(cube);
-                for(j=0;j<2;j++)
-                    b(cube);
-                for(j=0;j<2;j++)
-                    d(cube);
-                b(cube);
-                for(j=0;j<2;j++)
-                    d(cube);
-
-            }
-        }
-        for(i=0;i<3;i++&& (!((checkCube(cube, 3,9)) ^ (checkCube(cube, 3,11)) ^ (checkCube(cube, 5,11)) ^ (!checkCube(cube,5,9))))){
-            if((checkCube(cube, 3,9)) ^ (checkCube(cube, 3,11)) ^ (checkCube(cube, 5,11)) ^ (!checkCube(cube,5,9))) {
-                printf(" down cont\n");
-                continue;
-            }
-            l(cube);
-            d(cube);
-            for(j=0;j<3;j++)
-                l(cube);
-            d(cube);
-            l(cube);
-            for(j=0;j<2;j++)
-                d(cube);
-            for(j=0;j<3;j++)
-                l(cube);
-            for(j=0;j<2;j++)
-                d(cube);
-            printf("stuck\n");
-        }
-        //    if((checkCube(cube, 3,9)) ^ (checkCube(cube, 3,11)) ^ (checkCube(cube, 5,11)) ^ (!checkCube(cube,5,9))){
-        if(cube[3][9]==6){
-            for(i=0; i<3;i++){
-                if(checkYellowCornorUp(cube))
-                    return;
-                f(cube);
-                d(cube);
-                for(j=0;j<3;j++)
-                    f(cube);
-                d(cube);
-                f(cube);
-                for(j=0;j<2;j++)
-                    d(cube);
-                for(j=0;j<3;j++)
-                    f(cube);
-                for(j=0;j<2;j++)
-                    d(cube);
-            }             
-        }   
-
-        if(cube[3][11]==6){
-            for(i=0; i<3;i++){
-                if(checkYellowCornorUp(cube))
-                    return;
-                for(j=0;j<3;j++)
-                    r(cube);
-                d(cube);
-                r(cube);
-                d(cube);
-                for(j=0;j<2;j++)
-                    r(cube);
-                for(j=0;j<2;j++)
-                    d(cube);
-                r(cube);
-                for(j=0;j<2;j++)
-                    d(cube);
-            }             
-        }   
-        if(cube[5][11]==6){
-            for(i=0; i<3;i++){
-                if(checkYellowCornorUp(cube))
-                    return;
-                for(j=0;j<3;j++)
-                    b(cube);
-                d(cube);
-                b(cube);
-                d(cube);
-                for(j=0;j<2;j++)
-                    b(cube);
-                for(j=0;j<2;j++)
-                    d(cube);
-                b(cube);
-                for(j=0;j<2;j++){
-                    d(cube);
-                }
-            }             
-
-        }   
-        if(checkCube(cube, 5,9)){
-            for(i=0; i<3;i++){
-                if(checkYellowCornorUp(cube))
-                    return;
-                l(cube);
-                d(cube);
-                for(j=0;j<3;j++)
-                    l(cube);
-                d(cube);
-                l(cube);
-                for(j=0;j<2;j++)
-                    d(cube);
-                for(j=0;j<3;j++)
-                    l(cube);
-                for(j=0;j<2;j++)
-                    d(cube);
-            }             
-
-        }   
-        //   }
-    }
-    return;
 }
 
 bool checkYellowCornorUp(int** cube){
@@ -337,6 +155,24 @@ bool checkYellowCornorUp(int** cube){
 
     }
     return false;
+}
+
+void yellowCornorUp(int** cube){
+    int i, j;
+    while(!checkYellowCornorUp(cube)){
+        if((cube[5][11]==6)){
+            d(cube);
+        }
+        if(!(cube[5][11]==6)){
+            for(i = 0; i<3;i++)
+                l(cube);
+            for(i = 0; i<3;i++)
+                u(cube);
+            l(cube);
+            u(cube);
+        }
+    }
+    return;
 }
 
 bool checkYellowCornorPlace(int**cube){
@@ -382,7 +218,7 @@ void yellowCornorPlace(int** cube){
                     return;
             }
         }
-            d(cube);
+        d(cube);
     }
     return;
 }
@@ -629,7 +465,7 @@ bool checkMiddle(int** cube){
         return false;
 
 }
-                                    //THIS IS STUCK TODO
+
 void makeWhiteX(int** cube){
     size_t i,j;       
     while(!checkWhiteCross(cube)){               
@@ -655,7 +491,7 @@ void makeWhiteX(int** cube){
                 printf("blue\n");
             }
             else{
-      //          printCube(cube);
+                //          printCube(cube);
                 continue;
             }
         }
@@ -687,7 +523,7 @@ void makeWhiteX(int** cube){
                 printf("red\n");
             }
             else{
-        //        printCube(cube);
+                //        printCube(cube);
                 continue;
             }
         }
@@ -718,7 +554,7 @@ void makeWhiteX(int** cube){
                 printf("green\n");
             }
             else{
-              //  printCube(cube);
+                //  printCube(cube);
                 continue;
             }
         }
@@ -748,7 +584,7 @@ void makeWhiteX(int** cube){
                 printf("orange\n");
             }
             else{
-               // printCube(cube);
+                // printCube(cube);
                 continue;
             }
         }
@@ -785,9 +621,9 @@ void makeWhiteCornors(int**cube){
 
     while(!checkWhiteCornors(cube)){
         //bottom right
-     //   d(cube);
-            for(j = 0; j < 3; j++)
-                d(cube);
+        //   d(cube);
+        for(j = 0; j < 3; j++)
+            d(cube);
         for(i = 0; i < 3; i++){
             if((cube[5][5]==1) && (cube[6][5]==4) &&(cube[5][6]==2)){
                 continue;
@@ -797,7 +633,7 @@ void makeWhiteCornors(int**cube){
                 d(cube);
             for(j = 0; j < 3; j++)
                 r(cube);
-       //     d(cube);
+            //     d(cube);
             printf("br chenge\n");
             for(k=0; k < 2; k++){
                 if(!((cube[5][5]==1) && (cube[6][5]==4) && (cube[5][6]==2))){
@@ -812,7 +648,7 @@ void makeWhiteCornors(int**cube){
                         d(cube);
                     for(j = 0; j < 3; j++)
                         r(cube);
-            printf("br orient\n");
+                    printf("br orient\n");
                 }                                                      
                 else{
                     continue;
@@ -829,7 +665,7 @@ void makeWhiteCornors(int**cube){
             for(j = 0; j < 3; j++)
                 d(cube);
             f(cube);         
-         //   d(cube);
+            //   d(cube);
             printf("fl chenge\n");
 
             for(k=0; k < 2; k++){
@@ -846,7 +682,7 @@ void makeWhiteCornors(int**cube){
                         d(cube);
                     f(cube);
 
-            printf("fl orient\n");
+                    printf("fl orient\n");
 
                 }
                 else{
@@ -866,7 +702,7 @@ void makeWhiteCornors(int**cube){
                 d(cube);
             l(cube);           
             printf("bl orient\n");
-           // d(cube);
+            // d(cube);
             for(k=0; k < 2; k++){
                 if(!((cube[3][3]==1) && (cube[2][3]==5) && (cube[3][2]==3))){
                     for(j = 0; j < 3; j++)
@@ -898,7 +734,7 @@ void makeWhiteCornors(int**cube){
                 d(cube);
             for(j = 0; j < 3; j++)
                 b(cube);
-          //  d(cube);
+            //  d(cube);
             //switched cornor    
             printf("back right switched cornor\n");
             for(k=0; k < 2; k++){
@@ -914,8 +750,8 @@ void makeWhiteCornors(int**cube){
                         d(cube);
                     for(j = 0; j < 3; j++)
                         b(cube);
-                //switched orientation        
-                printf("back right switched orientation\n");
+                    //switched orientation        
+                    printf("back right switched orientation\n");
                 }
                 else{
                     continue;
@@ -941,7 +777,7 @@ bool checkWhiteCornors(int** cube){
     int d = checkCube(cube, 3,6);
     if(r && rb && l && lb &&  bl && blb && br && brb && a && b && c && d){
         return true;
-        }
+    }
     return false;
 }
 
@@ -1017,7 +853,7 @@ void d(int** cube){
     swap(cube,0,3,8,5);
     swap(cube,0,3,3,8);
     printf("Step: D\n");
-    }
+}
 
 //"right" - turn right side towards you
 void r(int** cube){
@@ -1037,7 +873,7 @@ void r(int** cube){
     swap(cube, 2,5,8,5);
     swap(cube, 2,5,3,9);
     printf("Step: R\n");
-    }
+}
 
 //"left" - turn left side towards you    
 void l(int** cube){
@@ -1057,7 +893,7 @@ void l(int** cube){
     swap(cube, 2,3,8,3);
     swap(cube, 2,3,3,11);
     printf("Step: L\n");
-    }
+}
 
 //"front" - twist front face clockwise
 void f(int** cube){
@@ -1081,7 +917,7 @@ void f(int** cube){
     swap(cube,5,3,5,9);
     swap(cube,5,3,5,0);
     printf("Step: F\n");
-    }
+}
 
 //"back" - twist back face clockwise -relative to the human's perception of clockwise
 void b(int** cube){
@@ -1101,4 +937,4 @@ void b(int** cube){
     swap(cube, 3,5,3,11);
     swap(cube, 3,5,3,2);
     printf("Step: B\n");
-    }
+}
