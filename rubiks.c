@@ -64,7 +64,7 @@ int main(void){
     yellowL(cube);
     yellowCornorPlace(cube);
     yellowCornorUp(cube);
-//    fixYellowEdges(cube);
+    fixYellowEdges(cube);
     printCube(cube);     
     
     /*    while (true) {
