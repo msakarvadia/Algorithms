@@ -23,11 +23,12 @@ void fillStdCube(int** cube);
 void makeWhiteCornors(int**cube);
 bool checkMiddle(int** cube);
 void makeMiddle(int** cube);
-void yellowL(int** cube);
+void yellowL(int** cube);       //Acutally a yellow cross func
 void yellowCornorPlace(int** cube); //puts yellow cornors in correct place before they can be oriented
 bool checkYellowCornorPlace(int**cube);
 bool checkYellowCornorUp(int** cube);
 void yellowCornorUp(int** cube);
+void fixYellowEdges(int** cube);
 
 
 void standardScramble(int** cube){
@@ -63,6 +64,7 @@ int main(void){
     yellowL(cube);
     yellowCornorPlace(cube);
     yellowCornorUp(cube);
+//    fixYellowEdges(cube);
     printCube(cube);     
     
     /*    while (true) {
@@ -103,11 +105,113 @@ int main(void){
                     printCube(cube);
                 }
             }
+            }
+            u(cube);
+            printCube(cube);
+            return 0;
+            }   */
+}
+
+void fixYellowEdges(int** cube){
+    size_t i,j;
+   while(!((cube[4][8]==2)&&(cube[0][4]==5)&&(cube[4][0]==3)&&(cube[8][4]==4))){
+        for(i=0;i<2;i++){
+            if((cube[4][8]==2)&&(cube[0][4]==5)&&(cube[4][0]==3)&&(cube[8][4]==4))
+                return;
+           /* if(cube[0][4]==5)  {
+                printf("cont\n");
+                continue;
+            }*/
+            for(j=0;j<2;j++)
+                l(cube);
+            d(cube);
+            f(cube);
+            b(cube);
+            for(j=0;j<2;j++)
+                l(cube);
+            for(j=0;j<3;j++)
+                f(cube);
+            for(j=0;j<3;j++)
+                b(cube);
+            d(cube);
+            for(j=0;j<2;j++)
+               l(cube);
+            printCube(cube);
         }
-    u(cube);
-    printCube(cube);
-    return 0;
-    }   */
+       // if(cube[0][4]==5){
+            for(i =0; i<2;i++){
+                if((cube[4][8]==2)&&(cube[0][4]==5)&&(cube[4][0]==3)&&(cube[8][4]==4))
+                    return;
+                if(cube[4][8]==2){
+                    printf("cont because orange is good\n");
+                    break;
+                }
+                //do this if green is in right position
+                for(j=0;j<2;j++)
+                    f(cube);
+                d(cube);
+                for(j=0;j<3;j++)
+                    r(cube);
+                for(j=0;j<3;j++)
+                    l(cube);
+                for(j=0;j<2;j++)
+                    f(cube);
+                r(cube);
+                l(cube);
+                d(cube);
+                for(j=0;j<2;j++)
+                    f(cube);  
+                printCube(cube);
+            }          
+      //  }
+   /*     if(cube[8][4] ==2){
+            for(i =0; i<3;i++){
+                if((cube[8][8]==2)&&(cube[0][4]==5)&&(cube[4][0]==3)&&(cube[8][4]==4))
+                    return;
+                //if blue is correct pos
+                for(j=0;j<2;j++)
+                    b(cube);
+                d(cube);    
+                l(cube);
+                r(cube);
+                for(j=0;j<2;j++)
+                    b(cube);
+                for(j=0;j<3;j++)
+                    l(cube);
+                for(j=0;j<3;j++)
+                    r(cube);
+                d(cube);
+                for(j=0;j<2;j++)
+                    b(cube);
+                printCube(cube);
+            }
+        } 
+        if(cube[4][0]==3){
+            for(i =0; i<3;i++){
+                if((cube[4][8]==2)&&(cube[0][4]==5)&&(cube[4][0]==3)&&(cube[8][4]==4))
+                    return;
+                //if red is in correct spot
+                for(j=0;j<2;j++)
+                    r(cube);
+                d(cube);
+                for(j=0;j<3;j++)
+                    b(cube);
+                for(j=0;j<3;j++)
+                    f(cube);
+                for(j=0;j<2;j++)
+                    r(cube);
+                b(cube);
+                f(cube);
+                d(cube);
+                for(j=0;j<2;j++)
+                    r(cube);
+
+                printCube(cube);
+            }
+        }     */
+        //else do this    
+   } 
+    return;
 }
 
 int** makeCube(){    
@@ -142,10 +246,10 @@ void fillStdCube(int** cube){
 }
 
 bool checkYellowCornorUp(int** cube){
-    if(cube[3][9]==6){
-        if(cube[3][11]==6){
-            if(cube[5][11]==6){
-                if(cube[5][9]==6){
+    if(cube[3][8]==2 && cube[0][5]==5){
+        if(cube[3][0]==3 && cube[0][3]==5){
+            if(cube[5][0]==3 && cube[8][3]==4){
+                if(cube[5][8]==2 && cube[8][5]==4){
                     return true;
                 }
 
@@ -159,7 +263,7 @@ bool checkYellowCornorUp(int** cube){
 
 void yellowCornorUp(int** cube){
     int i, j;
-    while(!checkYellowCornorUp(cube)){
+    while(!(checkYellowCornorUp(cube))){
         if((cube[5][11]==6)){
             d(cube);
         }
@@ -223,10 +327,12 @@ void yellowCornorPlace(int** cube){
     return;
 }
 
-void yellowL(int** cube){
+void yellowL(int** cube){      //whill actulally make a yellow cross
     int i, j;
-    while(!((cube[4][9]==6)&& (cube[3][10]==6))){
+    while(!((cube[4][9]==6)&& (cube[3][10]==6)&& (cube[4][11]==6)&&(cube[5][10]==6))){
         for(i=0; i<4; i++){
+            if((cube[4][9]==6)&& (cube[3][10]==6)&& (cube[4][11]==6)&&(cube[5][10]==6))
+                return;
             f(cube);
             l(cube);
             d(cube);
@@ -236,6 +342,7 @@ void yellowL(int** cube){
                 d(cube);
             for(j=0;j<3; j++)
                 f(cube);
+                
         }
         d(cube);
     }
