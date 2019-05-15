@@ -6,12 +6,24 @@
 #include <math.h>
 
 #define LEARNING_RATE 0.1
+#define TEST_SIZE 10000
+#define TRAIN_SIZE 60000
 
 typedef struct network{
     size_t numOfLayers;
     size_t *layerSizes;
     double ***weights; //lets us put matrices inside of arrays
     }Network;
+
+typedef struct input{
+    int data[784];
+    int labels[10];
+    }Input;    
+
+
+
+Input test_set[10100];    
+Input train_set[60100];
 
 double logistic(double x);
 double softmax(double x);
@@ -26,6 +38,8 @@ double *feedForward(Network *network, double *input);
 void backPropagate(Network *network, double *input, double *expected, double learningRate);
 double dotProduct(double *a, double*b, size_t length); 
 double vectorByVector(double **m, size_t len);
+void fileParser(char* file, Input *inputs);
+
 
 int main(void){
 /*    printf("%f\n", softmax(.2));
@@ -46,6 +60,14 @@ int main(void){
     printMatrix(c, 3, 3);
     puts("");
   */
+    bzero(test_set, sizeof(test_set)); 
+    bzero(test_set, sizeof(train_set)); 
+
+    printf("reading test set...\n");
+    fileParser("mnist_test.csv", test_set);
+    printf("reading train set...\n");
+    fileParser("mnist_train.csv", train_set);
+
     size_t layerSizes[] = {10,5,2};
     Network *ann = createNetwork(3,layerSizes);
     printMatrix(ann->weights[0],11,5);
@@ -71,6 +93,40 @@ int main(void){
     return 0;
 }
 
+void fileParser(char* file, Input *inputs){
+    char line[4096];
+    FILE * f = fopen(file, "r");
+    if(f==NULL){
+        perror("error while opening file.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    while(!feof(f)){
+        if(fgets(line, 4096-1,f)==NULL){
+            break;
+        }
+        else{
+          //  printf("%s\n",line);
+            int i =0;
+            char* tok = strtok(line, ",");
+            while(tok != NULL){
+                if(i==0){
+                    inputs->labels[atoi(tok)] = 1;
+                    //printf("label made\n");
+                    i++;
+                    continue;
+                }
+                inputs->data[i-i] = atoi(tok);
+
+                tok = strtok(NULL,",");
+                i++;
+            }
+        }
+
+    }    
+    fclose(f);
+
+}
 
 Network *createNetwork(size_t numOfLayers, size_t *layerSizes){
     Network *out = malloc(sizeof(Network));
