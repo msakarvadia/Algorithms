@@ -18,12 +18,14 @@ double softmax(double x);
 double **matrixMultiply(double **a, double **b, size_t aRow, size_t ab, size_t bCol);
 double *vectorByMatrix(double *a, double **b, size_t ab, size_t bCol);
 void printMatrix(double **m, size_t rows, size_t cols);
+void printVector(double* m, size_t len);
 double **createMatrix(size_t rows, size_t cols);
 Network *createNetwork(size_t numOfLayers, size_t *layerSizes);
 void destroyNetwork(Network *network);
 double *feedForward(Network *network, double *input);
 void backPropagate(Network *network, double *input, double *expected, double learningRate);
-double dotproduct(double *a, double*b, size_t length); //TODO
+double dotProduct(double *a, double*b, size_t length); 
+double vectorByVector(double **m, size_t len);
 
 int main(void){
 /*    printf("%f\n", softmax(.2));
@@ -47,12 +49,25 @@ int main(void){
     size_t layerSizes[] = {10,5,2};
     Network *ann = createNetwork(3,layerSizes);
     printMatrix(ann->weights[0],11,5);
+    puts("");
     printMatrix(ann->weights[1],6,2);
-    double in[10] = {0.3, 0.5, 0.1, 0.11, 0.9, 0.67, 0.42, 0.1, 0.05, 0.09};
+    puts("");
+    double in[11] = {0.73, 0.3, 0.5, 0.1, 0.11, 0.9, 0.67, 0.42, 0.1, 0.05, 0.09};
     double *out = feedForward(ann, in);
-    //TODO //make this func: printVector(out, 2);
-    destroyNetwork(ann);
+    puts("");
+    double exp[2] = {0,1};
+    backPropagate(ann, in, exp, .5);
+    printVector(out, 2);
 
+  //  destroyNetwork(ann);
+  //MNIST CLASSIFICATION
+    puts("");
+    size_t MNIST_layerSizes[] = {784,512,10};
+    Network *mnistANN = createNetwork(3,MNIST_layerSizes);
+//TODO loop thru total test cases on untrained network - calc error
+// loop thru total trainset
+//loop thru total test set again - calc error
+//show the difference in error somehow
     return 0;
 }
 
@@ -74,21 +89,7 @@ Network *createNetwork(size_t numOfLayers, size_t *layerSizes){
     return out;
 }
 
-double *vectorByMatrix(double *a, double **b, size_t ab, size_t bCol){
-    return *matrixMultiply(&a, b, 1, ab, bCol);
-    }
 
-void destroyNetwork(Network *network){
-    for(size_t m = 0; m<network->numOfLayers-1; ++m){
-        for(size_t r = 0; r< network->layerSizes[m]+1; ++r){
-            free(network->weights[m][r]);
-        }
-        free(network->weights[m]);
-    }
-    free(network->weights);
-    free(network->layerSizes);
-    free(network);
-}
 
 void backPropagate(Network *network, double *input, double *expected, double learningRate){
     double **layers = malloc(sizeof(double*)*(network->numOfLayers-1)); //stores output signals of each layer
@@ -165,7 +166,7 @@ double softmax(double x){ //INCORRECT
 
 double logistic(double x){               //this is not a true sigmoid, 
     x-=0.5;
-    return 1 / (1 + exp(-10*(x)));
+    return 1 / (1 + exp((x)));
     //return .5 + (exp(x)-exp(-x))/(exp(x)+exp(-x));
 }
 
@@ -184,6 +185,14 @@ double **matrixMultiply(double **a, double **b, size_t aRow, size_t ab, size_t b
     return out;
 }
 
+double *vectorByMatrix(double *a, double **b, size_t ab, size_t bCol){
+    return *matrixMultiply(&a, b, 1, ab, bCol);
+    }
+                                             /*
+double* vectorByVector(double *m, double *n,size_t len){
+    return *matrixMultiply(&m, &n, 1, len, len);
+    }                                          */
+
 void printMatrix(double **m, size_t rows, size_t cols){
     for(size_t i = 0; i<rows; ++i){
         for(size_t j= 0; j<cols; ++j){
@@ -193,10 +202,40 @@ void printMatrix(double **m, size_t rows, size_t cols){
     }
 }
 
+void printVector(double* m, size_t len){
+    printMatrix(&m, 1, len);
+}
+
 double **createMatrix(size_t rows, size_t cols){
     double **out = malloc(rows *sizeof(double*));
     for(size_t i = 0; i<rows; ++i){
         out[i] = malloc(cols * sizeof(double*));
         }
     return out;
+}
+  /*                                          
+void destroyNetwork(Network *network){                                
+//    for(size_t m = 0; m<network->numOfLayers-1; ++m){
+//        for(size_t r = 0; r< network->layerSizes[m]+1; ++r){
+//            free(network->weights[m][r]);
+//        }
+//        free(network->weights[m]);
+//    }                                                                  
+    for(size_t m = 0; m<network->numOfLayers-1; ++m){
+        destroyMatrix(&(network->weights[m]), network->layerSizes[m]+1);
+    }
+    
+    free(network->weights);
+    free(network->layerSizes);
+    free(network);
+}
+
+void destroyMatrix(double** m,  )             */
+
+double dotProduct(double *a, double*b, size_t length){
+    double sum= 0;
+    for(size_t i = 0; i<length; i++){
+        sum += a[i]*b[i];
+    }
+    return sum;
 }

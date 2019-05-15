@@ -26,6 +26,9 @@ void makeMiddle(int** cube);
 void yellowL(int** cube);
 void yellowCornorPlace(int** cube); //puts yellow cornors in correct place before they can be oriented
 bool checkYellowCornorPlace(int**cube);
+bool checkYellowCornorUp(int** cube);
+void yellowCornorUp(int** cube);
+
 
 void standardScramble(int** cube){
     size_t i;
@@ -59,6 +62,7 @@ int main(void){
     makeMiddle(cube);
     yellowL(cube);
     yellowCornorPlace(cube);
+    yellowCornorUp(cube);
     printCube(cube);     
     
     /*    while (true) {
@@ -135,7 +139,204 @@ void fillStdCube(int** cube){
             cube[r][c] = 4; //this face is blue
         }
     }
-    
+
+}
+
+void yellowCornorUp(int** cube){
+    int i, j;
+    while(!checkYellowCornorUp(cube)){
+        if(cube[3][8]==6 && (!((checkCube(cube, 3,9)) ^ (checkCube(cube, 3,11)) ^ (checkCube(cube, 5,11)) ^ (!checkCube(cube,5,9))))){
+            for(i=0;i<3;++i ){
+                if((checkCube(cube, 3,9)) ^ (checkCube(cube, 3,11)) ^ (checkCube(cube, 5,11)) ^ (!checkCube(cube,5,9))){
+                    printf("cont\n");
+                    continue;   }
+                f(cube);
+                d(cube);
+                for(j=0;j<3;j++)
+                    f(cube);
+                d(cube);
+                f(cube);
+                for(j=0;j<2;j++)
+                    d(cube);
+                for(j=0;j<3;j++)
+                    f(cube);
+                for(j=0;j<2;j++)
+                    d(cube);
+            }
+        }
+        if(cube[8][5]==6 && (!((checkCube(cube, 3,9)) ^ (checkCube(cube, 3,11)) ^ (checkCube(cube, 5,11)) ^ (!checkCube(cube,5,9))))){
+            for(i=0;i<3;++i){
+                if((checkCube(cube, 3,9)) ^ (checkCube(cube, 3,11)) ^ (checkCube(cube, 5,11)) ^ (!checkCube(cube,5,9)))      {
+                    printf("cont\n");
+                    continue; }                                                                                                
+                l(cube);
+                d(cube);
+                for(j=0;j<3;j++)
+                    l(cube);
+                d(cube);
+                l(cube);
+                for(j=0;j<2;j++)
+                    d(cube);
+                for(j=0;j<3;j++)
+                    l(cube);
+                for(j=0;j<2;j++)
+                    d(cube);
+            }            
+        }
+        if(cube[0][3]==6 && (!((checkCube(cube, 3,9)) ^ (checkCube(cube, 3,11)) ^ (checkCube(cube, 5,11)) ^ (!checkCube(cube,5,9))))){
+            for(i=0;i<3;++i){
+                if((checkCube(cube, 3,9)) ^ (checkCube(cube, 3,11)) ^ (checkCube(cube, 5,11)) ^ (!checkCube(cube,5,9)))     {
+                    printf("cont\n");
+                    continue;  }                                                               
+                for(j=0;j<3;j++)                                                              
+                    r(cube);
+                d(cube);
+                r(cube);
+                d(cube);
+                for(j=0;j<2;j++)
+                    r(cube);
+                for(j=0;j<2;j++)
+                    d(cube);
+                r(cube);
+                for(j=0;j<2;j++)
+                    d(cube);
+            }
+        }
+        if(cube[5][0]==6 && (!((checkCube(cube, 3,9)) ^ (checkCube(cube, 3,11)) ^ (checkCube(cube, 5,11)) ^ (!checkCube(cube,5,9))))){
+            for(i=0;i<3;++i){
+                if((checkCube(cube, 3,9)) ^ (checkCube(cube, 3,11)) ^ (checkCube(cube, 5,11)) ^ (!checkCube(cube,5,9))) {
+                    printf("cont\n");
+                    continue;}
+                for(j=0;j<3;j++)
+                    b(cube);
+                d(cube);
+                b(cube);
+                d(cube);
+                for(j=0;j<2;j++)
+                    b(cube);
+                for(j=0;j<2;j++)
+                    d(cube);
+                b(cube);
+                for(j=0;j<2;j++)
+                    d(cube);
+
+            }
+        }
+        for(i=0;i<3;i++&& (!((checkCube(cube, 3,9)) ^ (checkCube(cube, 3,11)) ^ (checkCube(cube, 5,11)) ^ (!checkCube(cube,5,9))))){
+            if((checkCube(cube, 3,9)) ^ (checkCube(cube, 3,11)) ^ (checkCube(cube, 5,11)) ^ (!checkCube(cube,5,9))) {
+                printf(" down cont\n");
+                continue;
+            }
+            l(cube);
+            d(cube);
+            for(j=0;j<3;j++)
+                l(cube);
+            d(cube);
+            l(cube);
+            for(j=0;j<2;j++)
+                d(cube);
+            for(j=0;j<3;j++)
+                l(cube);
+            for(j=0;j<2;j++)
+                d(cube);
+            printf("stuck\n");
+        }
+        //    if((checkCube(cube, 3,9)) ^ (checkCube(cube, 3,11)) ^ (checkCube(cube, 5,11)) ^ (!checkCube(cube,5,9))){
+        if(cube[3][9]==6){
+            for(i=0; i<3;i++){
+                if(checkYellowCornorUp(cube))
+                    return;
+                f(cube);
+                d(cube);
+                for(j=0;j<3;j++)
+                    f(cube);
+                d(cube);
+                f(cube);
+                for(j=0;j<2;j++)
+                    d(cube);
+                for(j=0;j<3;j++)
+                    f(cube);
+                for(j=0;j<2;j++)
+                    d(cube);
+            }             
+        }   
+
+        if(cube[3][11]==6){
+            for(i=0; i<3;i++){
+                if(checkYellowCornorUp(cube))
+                    return;
+                for(j=0;j<3;j++)
+                    r(cube);
+                d(cube);
+                r(cube);
+                d(cube);
+                for(j=0;j<2;j++)
+                    r(cube);
+                for(j=0;j<2;j++)
+                    d(cube);
+                r(cube);
+                for(j=0;j<2;j++)
+                    d(cube);
+            }             
+        }   
+        if(cube[5][11]==6){
+            for(i=0; i<3;i++){
+                if(checkYellowCornorUp(cube))
+                    return;
+                for(j=0;j<3;j++)
+                    b(cube);
+                d(cube);
+                b(cube);
+                d(cube);
+                for(j=0;j<2;j++)
+                    b(cube);
+                for(j=0;j<2;j++)
+                    d(cube);
+                b(cube);
+                for(j=0;j<2;j++){
+                    d(cube);
+                }
+            }             
+
+        }   
+        if(checkCube(cube, 5,9)){
+            for(i=0; i<3;i++){
+                if(checkYellowCornorUp(cube))
+                    return;
+                l(cube);
+                d(cube);
+                for(j=0;j<3;j++)
+                    l(cube);
+                d(cube);
+                l(cube);
+                for(j=0;j<2;j++)
+                    d(cube);
+                for(j=0;j<3;j++)
+                    l(cube);
+                for(j=0;j<2;j++)
+                    d(cube);
+            }             
+
+        }   
+        //   }
+    }
+    return;
+}
+
+bool checkYellowCornorUp(int** cube){
+    if(cube[3][9]==6){
+        if(cube[3][11]==6){
+            if(cube[5][11]==6){
+                if(cube[5][9]==6){
+                    return true;
+                }
+
+            }
+
+        }
+
+    }
+    return false;
 }
 
 bool checkYellowCornorPlace(int**cube){
